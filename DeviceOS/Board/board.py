@@ -44,5 +44,10 @@ class Board(WiFiMixin, MQTTMixin):
         self._mqtt_pass = mqtt_pass
         self._mqtt_port = mqtt_port
 
-        self.connect_to_wifi()
-        self.connect_to_mqtt()
+        self.connect()
+
+    def connect(self):
+        if not self.has_wifi:
+            self.connect_to_wifi()
+        if not self.has_mqtt:
+            self.connect_to_mqtt()
