@@ -13,6 +13,8 @@ class WiFiMixin:
 
     __slots__ = ["_wlan"]
 
+    _wlan = None
+
     @property
     def wlan(self) -> network.WLAN:
         return self._wlan

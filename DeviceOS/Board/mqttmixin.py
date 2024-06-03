@@ -28,6 +28,8 @@ class MQTTMixin:
 
     __slots__ = ["_mqtt"]
 
+    _mqtt = None
+
     @property
     def mqtt(self) -> MQTTClient:
         return self._mqtt
