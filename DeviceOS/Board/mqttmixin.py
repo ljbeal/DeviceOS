@@ -2,6 +2,19 @@ try:
     from umqtt.simple import MQTTClient, MQTTException
 except ImportError:
     import mip
+
+    try:
+        import secrets as s
+        import network
+
+        wlan = network.WLAN(network.STA_IF)
+        wlan.connect(s.wifi["ssid"], s.wifi["pass"])
+        while not wlan.isconnected() and wlan.status() >= 0:
+            print("waiting for wifi for mip install")
+    except Exception as ex:
+        print(f"Failed wifi init when attempting to install umqtt.simple")
+        raise ex
+
     mip.install("umqtt.simple")
     from umqtt.simple import MQTTClient, MQTTException
 
