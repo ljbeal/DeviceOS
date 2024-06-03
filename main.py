@@ -1,6 +1,6 @@
 from DeviceOS.Board import Board
 
-import secrets as s
+import secrets as s  # type:  ignore
 
 
 board = Board(wlan_ssid=s.wifi["ssid"], 

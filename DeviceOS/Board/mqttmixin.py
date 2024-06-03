@@ -4,7 +4,7 @@ except ImportError:
     import mip
 
     try:
-        import secrets as s
+        import secrets as s  # type:  ignore
         import network
 
         wlan = network.WLAN(network.STA_IF)
