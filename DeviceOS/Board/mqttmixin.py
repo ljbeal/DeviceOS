@@ -49,3 +49,17 @@ class MQTTMixin:
             print(f"Error:\n{str(ex)}")
         else:
             print("Done.")
+
+    @property
+    def has_mqtt(self) -> bool:
+        """
+        Returns True if the mqtt server accepts connections
+        
+        WARNING: This will attempt to connect
+        """
+        try:
+            self.mqtt.connect()
+            return True
+        except Exception:
+            return False
+        
