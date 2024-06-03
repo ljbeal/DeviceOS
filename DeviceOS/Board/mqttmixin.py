@@ -22,7 +22,7 @@ except ImportError:
 class MQTTMixin:
     """
     Adds MQTT related functionality
-    
+
     expects a host and password at _mqtt_host and _mqtt_pass
     """
 
@@ -35,17 +35,18 @@ class MQTTMixin:
         return self._mqtt
 
     def connect_to_mqtt(self):
-        self._mqtt = MQTTClient(client_id="", 
-                                server=self._mqtt_host, 
-                                port=self._mqtt_port, 
-                                user=self._mqtt_user, 
-                                password=self._mqtt_pass, 
-                                keepalive=61, 
-                                ssl=False
-                                )
-        
+        self._mqtt = MQTTClient(
+            client_id="",
+            server=self._mqtt_host,
+            port=self._mqtt_port,
+            user=self._mqtt_user,
+            password=self._mqtt_pass,
+            keepalive=61,
+            ssl=False,
+        )
+
         try:
-            print("Connecting to MQTT Broker... ", end = "")
+            print("Connecting to MQTT Broker... ", end="")
             self.mqtt.connect()
         except Exception as ex:
             print(f"Error:\n{str(ex)}")
@@ -56,7 +57,7 @@ class MQTTMixin:
     def has_mqtt(self) -> bool:
         """
         Returns True if the mqtt server accepts connections
-        
+
         WARNING: This will attempt to connect
         """
         try:
@@ -64,4 +65,3 @@ class MQTTMixin:
             return True
         except Exception:
             return False
-        

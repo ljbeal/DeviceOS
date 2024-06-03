@@ -21,19 +21,19 @@ class BaseSubSensor:
     def name(self) -> str:
         """Returns the specified name"""
         return self._name
-    
+
     @property
     def icon(self) -> str:
         """Returns the specified icon"""
         return self._icon
-    
+
     @property
     def unit(self) -> str | None:
         """
         Returns the specified unit
-        
+
         ..note::
-            Sensors with unit=None will have no graph. 
+            Sensors with unit=None will have no graph.
             Set unit to "" for a "unitless" graph
         """
         return self._unit

@@ -7,7 +7,7 @@ from machine import Pin  # type:  ignore
 class WiFiMixin:
     """
     Adds wifi related functions
-    
+
     expects an ssid and password at _wlan_ssid and _wlan_pass
     """
 
@@ -24,7 +24,7 @@ class WiFiMixin:
         Create wifi object and attempt to connect
         """
         self._wlan = network.WLAN(network.STA_IF)
-        
+
         self.wlan.active(True)
         self.wlan.connect(self._wlan_ssid, self._wlan_pass)
 
@@ -40,7 +40,10 @@ class WiFiMixin:
                 n_ellipses += 1
                 if n_ellipses > max_ellipses:
                     n_ellipses = 1
-                print("Waiting for WiFi connection" + "." * n_ellipses, end=" " * max_ellipses + "\r")
+                print(
+                    "Waiting for WiFi connection" + "." * n_ellipses,
+                    end=" " * max_ellipses + "\r",
+                )
                 led.toggle()
 
                 time.sleep(0.5)
@@ -63,7 +66,11 @@ class WiFiMixin:
     @property
     def has_wifi(self) -> bool:
         """Returns True if there is a valid, functional WiFi connection"""
-        return self.wlan is not None and self.wlan.isconnected() and self.wlan.status() >= 0
+        return (
+            self.wlan is not None
+            and self.wlan.isconnected()
+            and self.wlan.status() >= 0
+        )
 
     @property
     def ip(self) -> None | str:

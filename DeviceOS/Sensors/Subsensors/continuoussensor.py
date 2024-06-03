@@ -5,7 +5,7 @@ class ContinuousSensor(BaseSubSensor):
     """
     Class defining a sensor that runs "continuously"
 
-    The read() method here simply collects the most recent data    
+    The read() method here simply collects the most recent data
     """
 
     def __init__(self, *args, **kwargs):
