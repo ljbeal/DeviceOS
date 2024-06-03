@@ -1,7 +1,7 @@
-from DeviceOS.Sensors.Subsensors.basesubsensor import BaseSubSensor
+from DeviceOS.Sensors.Subsensors.output import Output
 
 
-class ContinuousSensor(BaseSubSensor):
+class ContinuousOutput(Output):
     """
     Class defining a sensor that runs "continuously"
 
