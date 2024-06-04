@@ -2,7 +2,7 @@ class Output:
     """
     Baseclass to mark the instance of one sensor reading
 
-    e.g. A BME climate unit would contain a SubSensor for temp, humidity and pressure
+    e.g. A BME climate unit would contain an instance for temp, humidity and pressure
 
     Args:
         name: subsensor name

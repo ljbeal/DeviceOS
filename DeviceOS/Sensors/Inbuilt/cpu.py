@@ -10,10 +10,10 @@ class CPU(SensorDevice):
 
     Functions as an example for simple sensors
 
-    TODO: Decide if enforcing an __init__ is worth it (with super())    
+    TODO: Decide if enforcing an __init__ is worth it (with super())
     """
 
-    name="CPU"
+    name = "CPU"
     temp = Output(name="temp", unit="C", icon="mdi:thermometer", diagnostic=True)
 
     def read(self):
