@@ -1,22 +1,26 @@
+"""
+Mixin class providing MQTT functionality
+"""
 try:
-    from umqtt.simple import MQTTClient, MQTTException
+    from umqtt.simple import MQTTClient
 except ImportError:
     import mip
 
     try:
         import secrets as s  # type:  ignore
-        import network
+
+        import network  # pylint: disable=import-error
 
         wlan = network.WLAN(network.STA_IF)
         wlan.connect(s.wifi["ssid"], s.wifi["pass"])
         while not wlan.isconnected() and wlan.status() >= 0:
             print("waiting for wifi for mip install")
     except Exception as ex:
-        print(f"Failed wifi init when attempting to install umqtt.simple")
+        print("Failed wifi init when attempting to install umqtt.simple")
         raise ex
 
     mip.install("umqtt.simple")
-    from umqtt.simple import MQTTClient, MQTTException
+    from umqtt.simple import MQTTClient
 
 
 class MQTTMixin:
@@ -27,8 +31,6 @@ class MQTTMixin:
     """
 
     __slots__ = ["_mqtt"]
-
-    _mqtt = None
 
     @property
     def mqtt(self) -> MQTTClient:
@@ -65,7 +67,7 @@ class MQTTMixin:
             return True
         except Exception:
             return False
-        
-    def publish(self, topic: str, message: str, retain: bool = False):
-        self.mqtt.publish(topic=topic, message=message, retain=retain)
 
+    def publish(self, topic: str, message: str, retain: bool = False) -> None:
+        """Passthrough for umqtt.simple MQTTClient.publish"""
+        self.mqtt.publish(topic=topic, message=message, retain=retain)

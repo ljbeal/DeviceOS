@@ -1,4 +1,6 @@
-from DeviceOS.sensors.subsensors.output import Output
+"""
+SensorDevice is the base class that represents a single sensor breakout
+"""
 
 
 class SensorDevice:
@@ -17,16 +19,19 @@ class SensorDevice:
             ...
     """
 
-    __slots__ = ["_name", "interfaces"]
+    __slots__ = ["_name", "interfaces", "component"]
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, component: str = "sensor"):
         self._name = name
+
+        self.component = component
 
         self.interfaces = []
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Sensor({self.name})"
-    
+
     @property
-    def name(self):
+    def name(self) -> str:
+        """Returns the stored name"""
         return self._name

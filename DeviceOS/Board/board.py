@@ -1,12 +1,23 @@
+"""
+Contains the Board class, the toplevel class for all sensors
+
+Also handles wifi and mqtt functionality
+"""
+
+from typing import Generator
+from machine import unique_id  # pylint: disable=import-error
+
+import time
+import network  # pylint: disable=import-error
+import ubinascii  # pylint: disable=import-error
+
 import DeviceOS
 from DeviceOS.board.wifimixin import WiFiMixin
 from DeviceOS.board.mqttmixin import MQTTMixin
 from DeviceOS.sensors.sensordevice import SensorDevice
 
-import network
-import ubinascii
+from DeviceOS.sensors.subsensors.output import Output
 
-from machine import unique_id
 
 
 class Board(WiFiMixin, MQTTMixin):
@@ -34,6 +45,8 @@ class Board(WiFiMixin, MQTTMixin):
         "devices",
         "name",
         "area",
+        "discovery_prefix",
+        "interval",
         "_discovered"
     ]
 
@@ -45,12 +58,18 @@ class Board(WiFiMixin, MQTTMixin):
         mqtt_user: str,
         mqtt_pass: str,
         mqtt_port: int = 1883,
+        discovery_prefix: str = "homeassistant",
+        interval: int = 15,
         name: str = "DeviceOS_Test",
         area: str | None = None
     ):
         network.hostname(name)
         self.name = name
         self.area = area
+
+        self.discovery_prefix = discovery_prefix
+
+        self.interval = interval
 
         self._wlan_ssid = wlan_ssid
         self._wlan_pass = wlan_pass
@@ -68,49 +87,97 @@ class Board(WiFiMixin, MQTTMixin):
     @property
     def uid(self) -> str:
         """Returns the board UID"""
-        return ubinascii.hexlify(unique_id()).decode()  
-    
+        return ubinascii.hexlify(unique_id()).decode()
+
     @property
-    def identifiers(self):
+    def identifiers(self) -> list:
+        """Return identifiers for discovery payload"""
         return [self.uid]
 
-    def connect(self):
+    def connect(self) -> None:
+        """Attempt to connect to wifi and broker"""
         if not self.has_wifi:
             self.connect_to_wifi()
         if not self.has_mqtt:
             self.connect_to_mqtt()
 
-    def add_sensor(self, sensor: SensorDevice):
+    def add_sensor(self, sensor: SensorDevice) -> None:
+        """Add a preconfigured sensor to the board"""
         self.devices.append(sensor)
 
     @property
     def sensors(self) -> list:
+        """Returns a list of sensors"""
         return [item for item in self.devices if isinstance(item, SensorDevice)]
-    
+
     @property
-    def device_info(self):
+    def device_info(self) -> dict:
+        """Device info stub for discovery"""
         payload = {
             "sw_version": DeviceOS.__version__,
             "identifiers": self.identifiers,
             "name": self.name,
-            "manufacturer": "ljbeal"
+            "manufacturer": "ljbeal",
+            "support_url": "https://github.com/ljbeal/DeviceOS"
             }
-        
+
         if self.area is not None:
             payload["suggested_area"] = self.area
 
         return payload
-    
-    def discover(self) -> None:
+
+    @property
+    def interfaces(self) -> Generator[Output]:
+        """Iterates over available interfaces"""
         for sensor in self.sensors:
             for interface in sensor.interfaces:
-                name = interface.name
-                payload = interface.discovery_payload
-                
-                payload["device"] = self.device_info
+                yield interface
 
-                print(name)
-                print(payload)
+    def base_topic(self, component: str = "sensor") -> str:
+        """Generate discovery topic for `component`
+        See docs here: https://www.home-assistant.io/integrations/mqtt/#discovery-messages
+
+        Args:
+            component (str, optional): Component type. Defaults to "sensor".
+        """
+        return f"{self.discovery_prefix}/{component}/{self.uid}"
+
+    def discover(self) -> None:
+        """Initiate discovery"""
+        for interface in self.interfaces:
+            name = interface.name
+            payload = interface.discovery_payload
+
+            payload["device"] = self.device_info
+
+            print(name)
+            print(payload)
 
         self._discovered = True
-            
+
+    def read_sensors(self) -> dict:
+        """Read all of the sensor data into their respective names"""
+        cache = {}
+        for sensor in self.sensors:
+            tmp = sensor.read()
+
+            for key, val in tmp.items():
+                if key in cache:
+                    raise ValueError(f"key {key} already exists, do you have a sensor name clash?")
+                cache[key] = val
+
+        return cache
+
+    def run(self) -> None:
+        """Run, forever"""
+        while True:
+
+            self.one_shot()
+
+            time.sleep(self.interval)
+
+    def one_shot(self) -> None:
+        """Run, once"""
+        payload = self.read_sensors()
+
+        print(payload)

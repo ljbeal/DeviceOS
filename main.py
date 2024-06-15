@@ -1,3 +1,7 @@
+"""
+main.py always runs on pico startup
+"""
+
 import secrets as s
 
 from DeviceOS.board import Board
@@ -5,7 +9,7 @@ from DeviceOS.sensors.inbuilt.cpu import CPU  # type:  ignore
 from DeviceOS.sensors.inbuilt.network import Network  # type:  ignore
 
 
-board = Board(wlan_ssid=s.wifi["ssid"], 
+board = Board(wlan_ssid=s.wifi["ssid"],
               wlan_pass=s.wifi["pass"],
               mqtt_host=s.mqtt["host"],
               mqtt_user=s.mqtt["user"],
@@ -23,3 +27,4 @@ print(board.devices)
 print(board.devices[0].interfaces)
 
 board.discover()
+board.one_shot()

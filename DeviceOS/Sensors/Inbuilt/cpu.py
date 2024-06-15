@@ -1,8 +1,7 @@
 from DeviceOS.sensors.subsensors.output import Output
 from DeviceOS.sensors.sensordevice import SensorDevice
 
-import machine  # type: ignore
-
+import machine  # pylint: disable=import-error
 
 class CPU(SensorDevice):
     """
