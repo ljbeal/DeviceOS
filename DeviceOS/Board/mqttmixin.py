@@ -65,3 +65,7 @@ class MQTTMixin:
             return True
         except Exception:
             return False
+        
+    def publish(self, topic: str, message: str, retain: bool = False):
+        self.mqtt.publish(topic=topic, message=message, retain=retain)
+
