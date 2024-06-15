@@ -1,7 +1,10 @@
+"""
+Mixin class providing wifi functionality
+"""
 import time
-import network
+import network  # pylint: disable=import-error
 
-from machine import Pin  # type:  ignore
+from machine import Pin  # pylint: disable=import-error
 
 
 class WiFiMixin:
@@ -11,12 +14,17 @@ class WiFiMixin:
     expects an ssid and password at _wlan_ssid and _wlan_pass
     """
 
-    __slots__ = ["_wlan"]
-
-    _wlan = None
+    __slots__ = [
+        "_wlan",
+        "_wlan_ssid",
+        "_wlan_pass",
+        ]
 
     @property
     def wlan(self) -> network.WLAN:
+        """Returns the internal wlan object"""
+        if not hasattr(self, "_wlan"):
+            return None
         return self._wlan
 
     def connect_to_wifi(self) -> None:

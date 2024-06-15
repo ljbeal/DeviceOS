@@ -30,10 +30,18 @@ class MQTTMixin:
     expects a host and password at _mqtt_host and _mqtt_pass
     """
 
-    __slots__ = ["_mqtt"]
+    __slots__ = [
+        "_mqtt",
+        "_mqtt_host",
+        "_mqtt_user",
+        "_mqtt_pass",
+        "_mqtt_port",
+        ]
 
     @property
     def mqtt(self) -> MQTTClient:
+        if not hasattr(self, "_mqtt"):
+            return None
         return self._mqtt
 
     def connect_to_mqtt(self):

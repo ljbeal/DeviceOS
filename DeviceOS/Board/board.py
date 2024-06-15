@@ -18,6 +18,7 @@ from DeviceOS.sensors.sensordevice import SensorDevice
 
 
 class Board(WiFiMixin, MQTTMixin):
+    # pylint: disable = too-many-arguments, too-many-instance-attributes
     """
     Baseclass for the board, enabling WiFi and MQTT connectivity
 
@@ -33,12 +34,6 @@ class Board(WiFiMixin, MQTTMixin):
     """
 
     __slots__ = [
-        "_wlan_ssid",
-        "_wlan_pass",
-        "_mqtt_host",
-        "_mqtt_user",
-        "_mqtt_pass",
-        "_mqtt_port",
         "devices",
         "name",
         "area",
