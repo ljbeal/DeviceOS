@@ -114,8 +114,7 @@ class Board(WiFiMixin, MQTTMixin):
             "sw_version": DeviceOS.__version__,
             "identifiers": self.identifiers,
             "name": self.name,
-            "manufacturer": "ljbeal",
-            "support_url": "https://github.com/ljbeal/DeviceOS"
+            "manufacturer": "ljbeal"
             }
 
         if self.area is not None:
