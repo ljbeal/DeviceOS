@@ -1,3 +1,3 @@
-from DeviceOS.Board.board import Board
+from DeviceOS.board.board import Board
 
 __all__ = ["Board"]

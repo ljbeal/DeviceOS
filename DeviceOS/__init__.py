@@ -1,4 +1,4 @@
-from DeviceOS.Sensors.sensordevice import SensorDevice
+from DeviceOS.sensors.sensordevice import SensorDevice
 
 
 __all__ = ["SensorDevice"]

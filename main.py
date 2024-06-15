@@ -1,6 +1,7 @@
-from DeviceOS.Board import Board
+import secrets as s
 
-import secrets as s  # type:  ignore
+from DeviceOS.board import Board
+from DeviceOS.sensors.inbuilt.cpu import CPU  # type:  ignore
 
 
 board = Board(wlan_ssid=s.wifi["ssid"], 
@@ -11,3 +12,8 @@ board = Board(wlan_ssid=s.wifi["ssid"],
 
 print(board.ip)
 print(board.hostname)
+
+board.add_sensor(CPU())
+
+print(board.sensors)
+print(board.sensors[0].outputs)

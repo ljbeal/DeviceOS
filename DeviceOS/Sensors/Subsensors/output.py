@@ -14,11 +14,18 @@ class Output:
     __slots__ = ["_name", "_icon", "_unit", "_is_diagnostic"]
 
     def __init__(
-        self, name: str, icon: str, unit: str | None = None, diagnostic: bool = False
+        self, 
+        name: str, 
+        icon: str, 
+        unit: str | None = None, 
+        diagnostic: bool = False,
+        format: str | None = None
     ):
         self._name = name
         self._icon = icon
         self._unit = unit
+
+        self._format = format
 
         self._is_diagnostic = diagnostic
 
@@ -46,3 +53,23 @@ class Output:
     @property
     def diagnostic(self):
         return self._is_diagnostic
+    
+    @property
+    def discovery_payload(self):
+        payload = {
+            "unit_of_measurement": self.unit,
+            "name": self.name
+            }
+        
+        value_template = ["{{ value_json."]
+        value_template.append(self.name)
+
+        if self.format is not None:
+            value_template.append(f"| {self._format}")
+        value_template.append(" }}")
+        payload["value_template"] = "".join(value_template)
+
+        if self.diagnostic:
+            payload["entity_category"] = "diagnostic"
+
+        return payload

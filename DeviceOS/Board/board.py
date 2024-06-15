@@ -1,6 +1,7 @@
-from DeviceOS.Board.wifimixin import WiFiMixin
-from DeviceOS.Board.mqttmixin import MQTTMixin
+from DeviceOS.board.wifimixin import WiFiMixin
+from DeviceOS.board.mqttmixin import MQTTMixin
 
+from DeviceOS.sensors.sensordevice import SensorDevice
 import network
 
 
@@ -26,6 +27,7 @@ class Board(WiFiMixin, MQTTMixin):
         "_mqtt_user",
         "_mqtt_pass",
         "_mqtt_port",
+        "devices"
     ]
 
     def __init__(
@@ -47,10 +49,24 @@ class Board(WiFiMixin, MQTTMixin):
         self._mqtt_pass = mqtt_pass
         self._mqtt_port = mqtt_port
 
-        self.connect()
+        self.devices = []
+
+        self.connect()       
 
     def connect(self):
         if not self.has_wifi:
             self.connect_to_wifi()
         if not self.has_mqtt:
             self.connect_to_mqtt()
+
+    def add_sensor(self, sensor: SensorDevice):
+        self.devices.append(sensor)
+
+    @property
+    def sensors(self) -> list:
+        return [item for item in self.devices if isinstance(item, SensorDevice)]
+    
+    def discover(self):
+        for sensor in self.sensors:
+            print(f"discovering for sensor {sensor.name}")
+            print(sensor.discover())
