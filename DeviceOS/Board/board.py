@@ -1,8 +1,12 @@
+import DeviceOS
 from DeviceOS.board.wifimixin import WiFiMixin
 from DeviceOS.board.mqttmixin import MQTTMixin
-
 from DeviceOS.sensors.sensordevice import SensorDevice
+
 import network
+import ubinascii
+
+from machine import unique_id
 
 
 class Board(WiFiMixin, MQTTMixin):
@@ -27,7 +31,9 @@ class Board(WiFiMixin, MQTTMixin):
         "_mqtt_user",
         "_mqtt_pass",
         "_mqtt_port",
-        "devices"
+        "devices",
+        "name",
+        "area"
     ]
 
     def __init__(
@@ -39,8 +45,11 @@ class Board(WiFiMixin, MQTTMixin):
         mqtt_pass: str,
         mqtt_port: int = 1883,
         name: str = "DeviceOS_Test",
+        area: str | None = None
     ):
         network.hostname(name)
+        self.name = name
+        self.area = area
 
         self._wlan_ssid = wlan_ssid
         self._wlan_pass = wlan_pass
@@ -51,7 +60,16 @@ class Board(WiFiMixin, MQTTMixin):
 
         self.devices = []
 
-        self.connect()       
+        self.connect()     
+
+    @property
+    def uid(self) -> str:
+        """Returns the board UID"""
+        return ubinascii.hexlify(unique_id()).decode()  
+    
+    @property
+    def identifiers(self):
+        return [self.uid]
 
     def connect(self):
         if not self.has_wifi:
@@ -66,7 +84,25 @@ class Board(WiFiMixin, MQTTMixin):
     def sensors(self) -> list:
         return [item for item in self.devices if isinstance(item, SensorDevice)]
     
-    def discover(self):
+    @property
+    def device_info(self):
+        payload = {
+            "sw_version": DeviceOS.__version__,
+            "identifiers": self.identifiers,
+            "name": self.name,
+            "manufacturer": "ljbeal"
+            }
+        
+        if self.area is not None:
+            payload["suggested_area"] = self.area
+
+        return payload
+    
+    def discover(self) -> None:
         for sensor in self.sensors:
-            print(f"discovering for sensor {sensor.name}")
-            print(sensor.discover())
+            print(f"collecting discovery for sensor {sensor.name}")
+            sensor_payloads = sensor.discover(self.device_info)
+
+            for payload in sensor_payloads:
+                print(payload)
+            

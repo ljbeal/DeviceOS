@@ -29,5 +29,13 @@ class SensorDevice:
     def name(self):
         return self._name
         
-    def discover(self) -> list:
-        return [output.discovery_payload for output in self.interfaces]
+    def discover(self, device_info: dict | None = None) -> list:
+        discovery_cache = []
+        for interface in self.interfaces:
+            payload = interface.discovery_payload
+
+            if device_info is not None:
+                payload["device"] = device_info
+
+            discovery_cache.append(payload)
+        return discovery_cache
