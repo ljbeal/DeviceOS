@@ -6,6 +6,10 @@ whereas a combination sensor may have multiple. A particulate sensor may have
 three, for PM10, 2.5 and 1.0.
 """
 
+
+illegal_chars = [" "]
+
+
 class Output:
     # pylint: disable = too-many-arguments
     """
@@ -33,6 +37,10 @@ class Output:
         self._name = name
         self._icon = icon
         self._unit = unit
+
+        for char in illegal_chars:
+            if char in name:
+                raise ValueError(f"Name cannot contain illegal characters: {illegal_chars}")
 
         self._format = format_mod  # format modifer such as float(2)
 
