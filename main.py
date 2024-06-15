@@ -15,5 +15,7 @@ print(board.hostname)
 
 board.add_sensor(CPU())
 
-print(board.sensors)
-print(board.sensors[0].outputs)
+print(board.devices)
+print(board.devices[0].interfaces)
+
+print(board.discover())

@@ -17,21 +17,17 @@ class SensorDevice:
             ...
     """
 
+    __slots__ = ["_name", "interfaces"]
+
     def __init__(self, name: str):
         self._name = name
 
     def __repr__(self):
-        return f"Sensor({self._name})"
-        
+        return f"Sensor({self.name})"
+    
     @property
-    def outputs(self):
-        subsensors = []
-        for item in self.__dict__.values():
-            if isinstance(item, Output):
-                subsensors.append(item)
-
-        return subsensors
+    def name(self):
+        return self._name
         
     def discover(self) -> list:
-        return [output.discovery_payload for output in self.outputs]
-            
+        return [output.discovery_payload for output in self.interfaces]
