@@ -141,7 +141,11 @@ class Board(WiFiMixin, MQTTMixin):
 
                 payload["device"] = self.device_info
 
-                discovery_topic = f"{self.base_topic(sensor.component)}/{name}/config"
+                base_topic = self.base_topic(sensor.component)
+
+                payload["state_topic"] = f"{base_topic}/state"
+
+                discovery_topic = f"{base_topic}/{name}/config"
 
                 print(name)
                 print(discovery_topic)
