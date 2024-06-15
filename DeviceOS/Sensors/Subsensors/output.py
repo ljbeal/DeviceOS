@@ -29,6 +29,9 @@ class Output:
 
         self._is_diagnostic = diagnostic
 
+    def __repr__(self):
+        return f"Output({self.name})"
+
     @property
     def name(self) -> str:
         """Returns the specified name"""

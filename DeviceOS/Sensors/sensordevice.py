@@ -19,6 +19,9 @@ class SensorDevice:
 
     def __init__(self, name: str):
         self._name = name
+
+    def __repr__(self):
+        return f"Sensor({self._name})"
         
     @property
     def outputs(self):
