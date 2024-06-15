@@ -77,7 +77,8 @@ class Output:
         """Returns the discovery payload"""
         payload = {
             "unit_of_measurement": self.unit,
-            "name": self.name
+            "name": self.name,
+            "icon": self.icon,
             }
 
         value_template = ["{{ value_json."]
