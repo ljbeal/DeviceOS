@@ -33,7 +33,8 @@ class Board(WiFiMixin, MQTTMixin):
         "_mqtt_port",
         "devices",
         "name",
-        "area"
+        "area",
+        "_discovered"
     ]
 
     def __init__(
@@ -60,7 +61,9 @@ class Board(WiFiMixin, MQTTMixin):
 
         self.devices = []
 
-        self.connect()     
+        self.connect()
+
+        self._discovered = False
 
     @property
     def uid(self) -> str:
@@ -99,10 +102,14 @@ class Board(WiFiMixin, MQTTMixin):
         return payload
     
     def discover(self) -> None:
+        candidates = []
         for sensor in self.sensors:
-            print(f"collecting discovery for sensor {sensor.name}")
-            sensor_payloads = sensor.discover(self.device_info)
+            for interface in sensor.interfaces:
+                candidates.append(interface)
 
-            for payload in sensor_payloads:
-                print(payload)
+        for candidate in candidates:
+            print(candidate.name)
+            print(candidate.discovery_payload)
+
+        self._discovered = True
             

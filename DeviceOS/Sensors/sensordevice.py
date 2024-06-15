@@ -22,20 +22,11 @@ class SensorDevice:
     def __init__(self, name: str):
         self._name = name
 
+        self.interfaces = []
+
     def __repr__(self):
         return f"Sensor({self.name})"
     
     @property
     def name(self):
         return self._name
-        
-    def discover(self, device_info: dict | None = None) -> list:
-        discovery_cache = []
-        for interface in self.interfaces:
-            payload = interface.discovery_payload
-
-            if device_info is not None:
-                payload["device"] = device_info
-
-            discovery_cache.append(payload)
-        return discovery_cache
