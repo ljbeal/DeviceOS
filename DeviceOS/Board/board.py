@@ -143,6 +143,7 @@ class Board(WiFiMixin, MQTTMixin):
                 base_topic = self.base_topic(sensor.component)
 
                 payload["state_topic"] = f"{base_topic}/state"
+                payload["unique_id"] = f"{self.uid}_{name}"
 
                 discovery_topic = f"{base_topic}/{name}/config"
 
@@ -153,8 +154,8 @@ class Board(WiFiMixin, MQTTMixin):
                 self.publish(
                     topic=discovery_topic,
                     message=json.dumps(payload),
-                    retain=False
-                    )  # TODO: update retain
+                    retain=True
+                    )
 
         self._discovered = True
 
