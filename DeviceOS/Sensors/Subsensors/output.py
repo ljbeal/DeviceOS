@@ -23,20 +23,24 @@ class Output:
         unit: subsensor unit
         diagnostic: flag this sensor as "diagnostic"
         format_mod: format modifer (eg round(2))
+        force_update: adds force_update flag to discovery if True (Default True)
     """
 
-    __slots__ = ["_name", "_icon", "_unit", "_format", "_is_diagnostic"]
+    __slots__ = ["_name", "_icon", "_unit", "_format", "_force_update", "_is_diagnostic"]
     def __init__(
         self,
         name: str,
         icon: str,
         unit: str | None = None,
         diagnostic: bool = False,
-        format_mod: str | None = None
+        format_mod: str | None = None,
+        force_update: bool = True,
     ):
         self._name = name
         self._icon = icon
         self._unit = unit
+
+        self._force_update = force_update
 
         for char in illegal_chars:
             if char in name:
@@ -99,5 +103,8 @@ class Output:
 
         if self.diagnostic:
             payload["entity_category"] = "diagnostic"
+
+        if self._force_update:
+            payload["force_update"] = True
 
         return payload
