@@ -102,14 +102,15 @@ class Board(WiFiMixin, MQTTMixin):
         return payload
     
     def discover(self) -> None:
-        candidates = []
         for sensor in self.sensors:
             for interface in sensor.interfaces:
-                candidates.append(interface)
+                name = interface.name
+                payload = interface.discovery_payload
+                
+                payload["device"] = self.device_info
 
-        for candidate in candidates:
-            print(candidate.name)
-            print(candidate.discovery_payload)
+                print(name)
+                print(payload)
 
         self._discovered = True
             
