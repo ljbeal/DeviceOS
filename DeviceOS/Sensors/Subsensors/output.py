@@ -25,7 +25,7 @@ class Output:
         self._icon = icon
         self._unit = unit
 
-        self._format = format
+        self._format = format  # format modifer such as float(2)
 
         self._is_diagnostic = diagnostic
 
@@ -41,6 +41,10 @@ class Output:
     def icon(self) -> str:
         """Returns the specified icon"""
         return self._icon
+    
+    @property
+    def format(self) -> None | str:
+        return self._format
 
     @property
     def unit(self) -> str | None:
