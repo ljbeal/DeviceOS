@@ -4,20 +4,17 @@ Contains the Board class, the toplevel class for all sensors
 Also handles wifi and mqtt functionality
 """
 
-from typing import Generator
-from machine import unique_id  # pylint: disable=import-error
-
+import json
 import time
+
 import network  # pylint: disable=import-error
 import ubinascii  # pylint: disable=import-error
+from machine import unique_id  # pylint: disable=import-error
 
 import DeviceOS
-from DeviceOS.board.wifimixin import WiFiMixin
 from DeviceOS.board.mqttmixin import MQTTMixin
+from DeviceOS.board.wifimixin import WiFiMixin
 from DeviceOS.sensors.sensordevice import SensorDevice
-
-from DeviceOS.sensors.subsensors.output import Output
-
 
 
 class Board(WiFiMixin, MQTTMixin):
@@ -126,13 +123,6 @@ class Board(WiFiMixin, MQTTMixin):
 
         return payload
 
-    @property
-    def interfaces(self) -> Generator[Output]:
-        """Iterates over available interfaces"""
-        for sensor in self.sensors:
-            for interface in sensor.interfaces:
-                yield interface
-
     def base_topic(self, component: str = "sensor") -> str:
         """Generate discovery topic for `component`
         See docs here: https://www.home-assistant.io/integrations/mqtt/#discovery-messages
@@ -144,14 +134,24 @@ class Board(WiFiMixin, MQTTMixin):
 
     def discover(self) -> None:
         """Initiate discovery"""
-        for interface in self.interfaces:
-            name = interface.name
-            payload = interface.discovery_payload
+        for sensor in self.sensors:
+            for interface in sensor.interfaces:
+                name = interface.name
+                payload = interface.discovery_payload
 
-            payload["device"] = self.device_info
+                payload["device"] = self.device_info
 
-            print(name)
-            print(payload)
+                discovery_topic = f"{self.base_topic(sensor.component)}/{name}/config"
+
+                print(name)
+                print(discovery_topic)
+                print(payload)
+
+                self.publish(
+                    topic=discovery_topic,
+                    message=json.dumps(payload),
+                    retain=False
+                    )  # TODO: update retain
 
         self._discovered = True
 
@@ -180,4 +180,8 @@ class Board(WiFiMixin, MQTTMixin):
         """Run, once"""
         payload = self.read_sensors()
 
+        topic = f"{self.base_topic("sensor")}/state"
+
+        print(topic)
         print(payload)
+        self.publish(topic=topic, message=json.dumps(payload))

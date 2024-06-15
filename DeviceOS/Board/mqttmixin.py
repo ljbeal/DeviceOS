@@ -70,4 +70,4 @@ class MQTTMixin:
 
     def publish(self, topic: str, message: str, retain: bool = False) -> None:
         """Passthrough for umqtt.simple MQTTClient.publish"""
-        self.mqtt.publish(topic=topic, message=message, retain=retain)
+        self.mqtt.publish(topic=topic, msg=message, retain=retain)
