@@ -13,11 +13,11 @@ class CPU(SensorDevice):
     def __init__(self):
         super().__init__(name="CPU")
 
-        self.interfaces = [Output(name="CPU_Temperature", unit="C", icon="mdi:thermometer", diagnostic=True)]
+        self.interfaces = [Output(name="CPU_Temp", unit="C", icon="mdi:thermometer", diagnostic=True)]
 
     def read(self):
         adc = machine.ADC(4)
         voltage = adc.read_u16() * (3.3 / 65536)
         temp_c = 27 - (voltage - 0.706) / 0.001721
 
-        return {"CPU_Temperature": temp_c}
+        return {"CPU_Temp": temp_c}
