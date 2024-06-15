@@ -35,3 +35,7 @@ class SensorDevice:
     def name(self) -> str:
         """Returns the stored name"""
         return self._name
+
+    def read(self):
+        """Stub read() method, to be replaced by the user"""
+        return NotImplemented
