@@ -2,3 +2,4 @@ secrets.py
 *.pyc
 *.mpy
 prototype/
+sensors/
