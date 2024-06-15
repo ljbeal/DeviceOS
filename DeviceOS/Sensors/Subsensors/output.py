@@ -22,7 +22,7 @@ class Output:
         icon: subsensor icon
         unit: subsensor unit
         diagnostic: flag this sensor as "diagnostic"
-        format_mod: format modifer (eg float(2))
+        format_mod: format modifer (eg round(2))
     """
 
     __slots__ = ["_name", "_icon", "_unit", "_format", "_is_diagnostic"]
@@ -42,7 +42,7 @@ class Output:
             if char in name:
                 raise ValueError(f"Name cannot contain illegal characters: {illegal_chars}")
 
-        self._format = format_mod  # format modifer such as float(2)
+        self._format = format_mod  # format modifer such as round(2)
 
         self._is_diagnostic = diagnostic
 
@@ -93,7 +93,7 @@ class Output:
         value_template.append(self.name)
 
         if self.format is not None:
-            value_template.append(f"| {self._format}")
+            value_template.append(f" | {self._format}")
         value_template.append(" }}")
         payload["value_template"] = "".join(value_template)
 

@@ -14,7 +14,13 @@ class CPU(SensorDevice):
         super().__init__(name="CPU")
 
         self.interfaces = [
-            Output(name="CPU_Temp", unit="C", icon="mdi:thermometer", diagnostic=True)
+            Output(
+                name="CPU_Temp",
+                unit="C",
+                icon="mdi:thermometer",
+                format_mod="round(2)",
+                diagnostic=True
+                )
             ]
 
     def read(self):
