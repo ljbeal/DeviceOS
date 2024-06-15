@@ -154,7 +154,7 @@ class Board(WiFiMixin, MQTTMixin):
                 self.publish(
                     topic=discovery_topic,
                     message=json.dumps(payload),
-                    retain=True
+                    retain=False
                     )
 
         self._discovered = True
