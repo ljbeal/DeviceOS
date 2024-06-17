@@ -175,14 +175,6 @@ class Board(WiFiMixin, MQTTMixin):
 
     def run(self) -> None:
         """Run, forever"""
-        while True:
-
-            self.one_shot()
-
-            time.sleep(self.interval)
-
-    def one_shot(self) -> None:
-        """Run, once"""
         if hasattr(self, "_reset_flag") and self._reset_flag:
             print("we are in a reset state, attempting a reconnect")
             self.setup()
@@ -190,10 +182,14 @@ class Board(WiFiMixin, MQTTMixin):
         if not self._discovered:
             self.discover()
 
-        payload = self.read_sensors()
-
         topic = f"{self.base_topic("sensor")}/state"
 
-        print(topic)
-        print(payload)
-        self.publish(topic=topic, message=json.dumps(payload))
+        while True:
+
+            payload = self.read_sensors()
+
+            time.sleep(self.interval)
+
+            print(topic)
+            print(payload)
+            self.publish(topic=topic, message=json.dumps(payload))
