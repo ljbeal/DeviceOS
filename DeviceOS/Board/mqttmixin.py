@@ -59,16 +59,27 @@ class MQTTMixin:
             keepalive=61,
             ssl=False,
         )
+        connected = False
+        n_ellipses = 0
+        max_ellipses = 3
+        while not connected:
+            try:
+                n_ellipses += 1
+                if n_ellipses > max_ellipses:
+                    n_ellipses = 1
 
-        try:
-            print("Connecting to MQTT Broker... ", end="")
-            self.mqtt.connect()
-        except Exception as exc:  # pylint: disable=broad-exception-caught
-            print(f"Error:\n{str(exc)}")
-            time.sleep(1)
-            return False
-        print(f"Done. Address: {self._mqtt_host}")
+                print(
+                    "Connecting to MQTT Broker" + "." * n_ellipses,
+                    end=" " * max_ellipses + "\r",
+                )
+                self.mqtt.connect()
+                connected = True
+            except OSError:  # pylint: disable=broad-exception-caught
+                time.sleep(0.5)
+
+        print("Connecting to MQTT Broker... Done.")
         return True
+
 
     def publish(self, topic: str, message: str, retain: bool = False) -> None:
         """Passthrough for umqtt.simple MQTTClient.publish"""
