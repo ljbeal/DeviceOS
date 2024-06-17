@@ -187,6 +187,9 @@ class Board(WiFiMixin, MQTTMixin):
             print("we are in a reset state, attempting a reconnect")
             self.setup()
 
+        if not self._discovered:
+            self.discover()
+
         payload = self.read_sensors()
 
         topic = f"{self.base_topic("sensor")}/state"
