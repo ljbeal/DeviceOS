@@ -61,7 +61,7 @@ class MQTTMixin:
         except Exception as ex:
             print(f"Error:\n{str(ex)}")
         else:
-            print("Done.")
+            print(f"Done. Address: {self._mqtt_host}")
 
     @property
     def has_mqtt(self) -> bool:
