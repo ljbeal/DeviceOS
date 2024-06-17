@@ -99,8 +99,13 @@ class Board(WiFiMixin, MQTTMixin):
         while not self.connect_to_mqtt():
             pass
 
-    def add_sensor(self, sensor: SensorDevice) -> None:
+    def add_sensor(self, sensor: SensorDevice, interval: None | int = None) -> None:
         """Add a preconfigured sensor to the board"""
+
+        if interval is None:
+            interval = self.interval
+        sensor.interval = interval
+
         self.devices.append(sensor)
 
     @property
@@ -160,18 +165,17 @@ class Board(WiFiMixin, MQTTMixin):
 
         self._discovered = True
 
-    def read_sensors(self) -> dict:
-        """Read all of the sensor data into their respective names"""
-        cache = {}
+    def read_sensors(self) -> bool:
+        """
+        Read all of the sensor data into their respective names
+        
+        Returns True if there is something to publish, else False
+        """
+        update = False
         for sensor in self.sensors:
-            tmp = sensor.read()
-
-            for key, val in tmp.items():
-                if key in cache:
-                    raise ValueError(f"key {key} already exists, do you have a sensor name clash?")
-                cache[key] = val
-
-        return cache
+            if sensor.internal_device_read():
+                update = True
+        return update
 
     def run(self) -> None:
         """Run, forever"""
@@ -186,9 +190,13 @@ class Board(WiFiMixin, MQTTMixin):
 
         while True:
 
-            payload = self.read_sensors()
+            update = self.read_sensors()
 
-            time.sleep(self.interval)
+            if not update:
+                continue
+            payload = {}
+            for sensor in self.sensors:
+                payload.update(sensor.data)
 
             print(topic)
             print(payload)

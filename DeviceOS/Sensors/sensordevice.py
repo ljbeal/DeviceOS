@@ -1,6 +1,7 @@
 """
 SensorDevice is the base class that represents a single sensor breakout
 """
+import time
 
 
 class SensorDevice:
@@ -19,7 +20,7 @@ class SensorDevice:
             ...
     """
 
-    __slots__ = ["_name", "interfaces", "component"]
+    __slots__ = ["_name", "interfaces", "component", "interval", "last_read_time", "data"]
 
     def __init__(self, name: str, component: str = "sensor"):
         self._name = name
@@ -28,6 +29,11 @@ class SensorDevice:
 
         self.interfaces = []
 
+        self.data = {}
+
+        self.last_read_time = 0
+        self.interval = 15
+
     def __repr__(self) -> str:
         return f"Sensor({self.name})"
 
@@ -35,6 +41,15 @@ class SensorDevice:
     def name(self) -> str:
         """Returns the stored name"""
         return self._name
+
+    def internal_device_read(self) -> bool:
+        """Internal read, stores the output of the user read() into the data property"""
+        now = int(time.time())
+        if self.last_read_time + self.interval > now:
+            return False
+        self.data = self.read()
+        self.last_read_time = now
+        return True
 
     def read(self):
         """Stub read() method, to be replaced by the user"""
