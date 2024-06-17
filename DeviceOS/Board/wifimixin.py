@@ -39,7 +39,6 @@ class WiFiMixin:
         led = Pin("LED", Pin.OUT)
 
         led_orig_state = led.value()
-        returnval = False
         try:
             led.on()
             n_ellipses = 0
@@ -55,15 +54,14 @@ class WiFiMixin:
                 led.toggle()
 
                 time.sleep(0.5)
-        except Exception as ex:
+        except Exception as ex:  # pylint: disable=broad-exception-caught
             print(f"Waiting for WiFi connection... Error:\n{str(ex)}")
-            returnval = False
+            return False
         else:
             print("Waiting for WiFi connection... Done.")
-            returnval = True
         finally:
             led.value(led_orig_state)
-            return returnval
+        return True
 
     def wifi_off(self) -> None:
         """Disconnect and disable wifi chip to save power"""
@@ -91,7 +89,7 @@ class WiFiMixin:
         return self.wlan.ifconfig()[0]
 
     @property
-    def DNS(self) -> None | str:
+    def dns(self) -> None | str:
         """Returns the address of the DNS server, None if there is no connection."""
         if not self.has_wifi:
             return None
