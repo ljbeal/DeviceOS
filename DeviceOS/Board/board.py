@@ -39,6 +39,7 @@ class Board(WiFiMixin, MQTTMixin):
         "area",
         "discovery_prefix",
         "interval",
+        "last_update_time",
         "_discovered",
         ]
 
@@ -63,6 +64,7 @@ class Board(WiFiMixin, MQTTMixin):
         self._discovered = False
 
         self.interval = interval
+        self.last_update_time = 0
 
         self._wlan_ssid = wlan_ssid
         self._wlan_pass = wlan_pass
@@ -189,15 +191,19 @@ class Board(WiFiMixin, MQTTMixin):
         topic = f"{self.base_topic("sensor")}/state"
 
         while True:
+            self.read_sensors()
 
-            update = self.read_sensors()
+            now = int(time.time())
 
-            if not update:
+            if self.last_update_time + self.interval > now:
                 continue
+
+            self.last_update_time = now
+
             payload = {}
             for sensor in self.sensors:
                 payload.update(sensor.data)
 
-            print(topic)
+            print(f"{now}: {topic}")
             print(payload)
             self.publish(topic=topic, message=json.dumps(payload))

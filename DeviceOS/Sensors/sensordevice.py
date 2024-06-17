@@ -20,9 +20,17 @@ class SensorDevice:
             ...
     """
 
-    __slots__ = ["_name", "interfaces", "component", "interval", "last_read_time", "data"]
+    __slots__ = [
+        "_name", 
+        "interfaces", 
+        "component", 
+        "interval", 
+        "last_read_time", 
+        "data",
+        "last_print_time"
+    ]
 
-    def __init__(self, name: str, component: str = "sensor"):
+    def __init__(self, name: str, component: str = "sensor", interval: int = 15):
         self._name = name
 
         self.component = component
@@ -32,7 +40,11 @@ class SensorDevice:
         self.data = {}
 
         self.last_read_time = 0
-        self.interval = 15
+        self.interval = interval
+
+        self.last_print_time = 0
+
+        print(f"created sensor {self.name} with interval {self.interval}")
 
     def __repr__(self) -> str:
         return f"Sensor({self.name})"
@@ -45,8 +57,14 @@ class SensorDevice:
     def internal_device_read(self) -> bool:
         """Internal read, stores the output of the user read() into the data property"""
         now = int(time.time())
+
         if self.last_read_time + self.interval > now:
             return False
+
+        if self.last_print_time + 1 <= now:
+            print(f"updating {self.name}")
+            self.last_print_time = now
+
         self.data = self.read()
         self.last_read_time = now
         return True
