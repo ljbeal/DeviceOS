@@ -1,6 +1,8 @@
 """
 Mixin class providing MQTT functionality
 """
+import time
+
 try:
     from umqtt.simple import MQTTClient
 except ImportError:
@@ -36,15 +38,18 @@ class MQTTMixin:
         "_mqtt_user",
         "_mqtt_pass",
         "_mqtt_port",
+        "_reset_flag",
         ]
 
     @property
     def mqtt(self) -> MQTTClient:
+        """Returns the internal MQTTClient object"""
         if not hasattr(self, "_mqtt"):
             return None
         return self._mqtt
 
-    def connect_to_mqtt(self):
+    def connect_to_mqtt(self) -> bool:
+        """Attempts to connect to the broker"""
         self._mqtt = MQTTClient(
             client_id="",
             server=self._mqtt_host,
@@ -58,24 +63,18 @@ class MQTTMixin:
         try:
             print("Connecting to MQTT Broker... ", end="")
             self.mqtt.connect()
-        except Exception as ex:
-            print(f"Error:\n{str(ex)}")
-        else:
-            print(f"Done. Address: {self._mqtt_host}")
-
-    @property
-    def has_mqtt(self) -> bool:
-        """
-        Returns True if the mqtt server accepts connections
-
-        WARNING: This will attempt to connect
-        """
-        try:
-            self.mqtt.connect()
-            return True
-        except Exception:
+        except Exception as exc:  # pylint: disable=broad-exception-caught
+            print(f"Error:\n{str(exc)}")
+            time.sleep(1)
             return False
+        print(f"Done. Address: {self._mqtt_host}")
+        return True
 
     def publish(self, topic: str, message: str, retain: bool = False) -> None:
         """Passthrough for umqtt.simple MQTTClient.publish"""
-        self.mqtt.publish(topic=topic, msg=message, retain=retain)
+        try:
+            self.mqtt.publish(topic=topic, msg=message, retain=retain)
+        except OSError as exc:
+            # if the connection fails, we probably need to go into a reset state
+            print(f"OSError: {str(exc)}, entering reset state")
+            self._reset_flag = True

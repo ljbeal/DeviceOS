@@ -39,8 +39,8 @@ class Board(WiFiMixin, MQTTMixin):
         "area",
         "discovery_prefix",
         "interval",
-        "_discovered"
-    ]
+        "_discovered",
+        ]
 
     def __init__(
         self,
@@ -60,6 +60,7 @@ class Board(WiFiMixin, MQTTMixin):
         self.area = area
 
         self.discovery_prefix = discovery_prefix
+        self._discovered = False
 
         self.interval = interval
 
@@ -72,6 +73,11 @@ class Board(WiFiMixin, MQTTMixin):
 
         self.devices = []
 
+        self.setup()
+
+    def setup(self):
+        """Performs any setup steps"""
+        # ensure wifi and mqtt connections
         self.connect()
 
         self._discovered = False
@@ -88,10 +94,10 @@ class Board(WiFiMixin, MQTTMixin):
 
     def connect(self) -> None:
         """Attempt to connect to wifi and broker"""
-        if not self.has_wifi:
-            self.connect_to_wifi()
-        if not self.has_mqtt:
-            self.connect_to_mqtt()
+        while not self.connect_to_wifi():
+            pass
+        while not self.connect_to_mqtt():
+            pass
 
     def add_sensor(self, sensor: SensorDevice) -> None:
         """Add a preconfigured sensor to the board"""
@@ -177,6 +183,10 @@ class Board(WiFiMixin, MQTTMixin):
 
     def one_shot(self) -> None:
         """Run, once"""
+        if hasattr(self, "_reset_flag") and self._reset_flag:
+            print("we are in a reset state, attempting a reconnect")
+            self.setup()
+
         payload = self.read_sensors()
 
         topic = f"{self.base_topic("sensor")}/state"

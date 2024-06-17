@@ -27,7 +27,7 @@ class WiFiMixin:
             return None
         return self._wlan
 
-    def connect_to_wifi(self) -> None:
+    def connect_to_wifi(self) -> bool:
         """
         Create wifi object and attempt to connect
         """
@@ -39,7 +39,7 @@ class WiFiMixin:
         led = Pin("LED", Pin.OUT)
 
         led_orig_state = led.value()
-
+        returnval = False
         try:
             led.on()
             n_ellipses = 0
@@ -57,10 +57,13 @@ class WiFiMixin:
                 time.sleep(0.5)
         except Exception as ex:
             print(f"Waiting for WiFi connection... Error:\n{str(ex)}")
+            returnval = False
         else:
             print("Waiting for WiFi connection... Done.")
+            returnval = True
         finally:
             led.value(led_orig_state)
+            return returnval
 
     def wifi_off(self) -> None:
         """Disconnect and disable wifi chip to save power"""
