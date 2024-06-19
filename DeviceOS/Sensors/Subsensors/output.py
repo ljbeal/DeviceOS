@@ -26,7 +26,15 @@ class Output:
         force_update: adds force_update flag to discovery if True (Default True)
     """
 
-    __slots__ = ["_name", "_icon", "_unit", "_format", "_force_update", "_is_diagnostic"]
+    __slots__ = [
+        "_name", 
+        "_icon", 
+        "_unit", 
+        "_format", 
+        "_force_update", 
+        "_is_diagnostic"
+        ]
+
     def __init__(
         self,
         name: str,
