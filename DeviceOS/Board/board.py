@@ -103,6 +103,8 @@ class Board(WiFiMixin, MQTTMixin):
 
     def add_sensor(self, sensor: SensorDevice) -> None:
         """Add a preconfigured sensor to the board"""
+        for interface in sensor.interfaces:
+            interface.parent = self
         self.devices.append(sensor)
 
     @property
@@ -138,27 +140,7 @@ class Board(WiFiMixin, MQTTMixin):
         """Initiate discovery"""
         for sensor in self.sensors:
             for interface in sensor.interfaces:
-                name = interface.name
-                payload = interface.discovery_payload
-
-                payload["device"] = self.device_info
-
-                base_topic = self.base_topic(sensor.component)
-
-                payload["state_topic"] = f"{base_topic}/state"
-                payload["unique_id"] = f"{self.uid}_{name}"
-
-                discovery_topic = f"{base_topic}/{name}/config"
-
-                print(name)
-                print(discovery_topic)
-                print(payload)
-
-                self.publish(
-                    topic=discovery_topic,
-                    message=json.dumps(payload),
-                    retain=False
-                    )
+                interface.discover()
 
         self._discovered = True
 

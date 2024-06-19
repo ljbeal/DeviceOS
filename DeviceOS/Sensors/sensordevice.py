@@ -23,17 +23,14 @@ class SensorDevice:
     __slots__ = [
         "_name", 
         "interfaces", 
-        "component", 
         "interval", 
         "last_read_time", 
         "data",
         "last_print_time"
     ]
 
-    def __init__(self, name: str, component: str = "sensor", interval: int = 15):
+    def __init__(self, name: str, interval: int = 15):
         self._name = name
-
-        self.component = component
 
         self.interfaces = []
 
