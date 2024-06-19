@@ -93,6 +93,11 @@ class Output:
         """Returns the specified icon"""
         return self._icon
 
+    @icon.setter
+    def icon(self, icon: str):
+        self._icon = icon
+        self.discover()
+
     @property
     def format(self) -> None | str:
         """Returns the format modifier, for discovery"""
