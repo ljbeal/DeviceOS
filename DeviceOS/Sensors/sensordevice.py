@@ -3,6 +3,8 @@ SensorDevice is the base class that represents a single sensor breakout
 """
 import time
 
+from DeviceOS.sensors.subsensors.output import Output
+
 
 class SensorDevice:
     """
@@ -45,6 +47,13 @@ class SensorDevice:
 
     def __repr__(self) -> str:
         return f"Sensor({self.name})"
+
+    def get_interface(self, name: str) -> Output | None:
+        """Attempt to get an interface by name"""
+        for interface in self.interfaces:
+            if interface.name == name:
+                return interface
+        return None
 
     @property
     def name(self) -> str:
