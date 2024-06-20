@@ -3,6 +3,11 @@ from deviceos.sensors.sensordevice import SensorDevice
 
 
 class Network(SensorDevice):
+    """
+    Stub class for reporting the IP diagnostic
+
+    Serves as an example for displaying static and diagnostic information
+    """
     def __init__(self, ip):
         super().__init__(name="network", interval=86400)
         self.ip = ip
@@ -10,4 +15,3 @@ class Network(SensorDevice):
 
     def read(self):
         return {"IP": self.ip}
-    
