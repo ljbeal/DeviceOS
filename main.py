@@ -20,8 +20,8 @@ board = Board(wlan_ssid=s.wifi["ssid"],
 board.add_sensor(CPU())
 board.add_sensor(Network(ip=board.ip))
 
-from sensors.bme280 import BME280_MQTT
-board.add_sensor(BME280_MQTT(sda=16, scl=17, interval=5))
+from examples.bme280 import BME280_MQTT
+board.add_sensor(BME280_MQTT(sda=16, scl=17))
 
 board.discover()
 board.run()
