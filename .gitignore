@@ -3,3 +3,4 @@ secrets.py
 *.mpy
 prototype/
 examples/
+DeviceOS.code-workspace
