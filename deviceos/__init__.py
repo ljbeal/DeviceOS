@@ -1,5 +1,5 @@
-from DeviceOS.board.board import Board
-from DeviceOS.sensors.sensordevice import SensorDevice
+from deviceos.board.board import Board
+from deviceos.sensors.sensordevice import SensorDevice
 
 
 __all__ = ["Board", "SensorDevice"]

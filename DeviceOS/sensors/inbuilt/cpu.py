@@ -1,5 +1,5 @@
-from DeviceOS.sensors.subsensors.output import Output
-from DeviceOS.sensors.sensordevice import SensorDevice
+from deviceos.sensors.subsensors.output import Output
+from deviceos.sensors.sensordevice import SensorDevice
 
 import machine  # pylint: disable=import-error
 

@@ -11,10 +11,10 @@ import network  # pylint: disable=import-error
 import ubinascii  # pylint: disable=import-error
 from machine import unique_id  # pylint: disable=import-error
 
-import DeviceOS
-from DeviceOS.board.mqttmixin import MQTTMixin
-from DeviceOS.board.wifimixin import WiFiMixin
-from DeviceOS.sensors.sensordevice import SensorDevice
+import deviceos
+from deviceos.board.mqttmixin import MQTTMixin
+from deviceos.board.wifimixin import WiFiMixin
+from deviceos.sensors.sensordevice import SensorDevice
 
 
 class Board(WiFiMixin, MQTTMixin):
@@ -116,7 +116,7 @@ class Board(WiFiMixin, MQTTMixin):
     def device_info(self) -> dict:
         """Device info stub for discovery"""
         payload = {
-            "sw_version": DeviceOS.__version__,
+            "sw_version": deviceos.__version__,
             "identifiers": self.identifiers,
             "name": self.name,
             "manufacturer": "ljbeal"

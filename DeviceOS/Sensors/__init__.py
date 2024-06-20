@@ -1,4 +1,4 @@
-from DeviceOS.sensors.subsensors.output import Output
+from deviceos.sensors.subsensors.output import Output
 
 
 __all__ = ["Output"]
