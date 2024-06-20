@@ -38,6 +38,7 @@ class Output:
         "_is_diagnostic",
         "_component",
         "_parent",
+        "calibration",
         ]
 
     def __init__(
@@ -49,10 +50,13 @@ class Output:
         diagnostic: bool = False,
         format_mod: str | None = None,
         force_update: bool = True,
+        calibration: int | float | None = None,
     ):
         self._name = name
         self._icon = icon
         self._unit = unit
+
+        self.calibration = calibration
 
         self._component = component
 

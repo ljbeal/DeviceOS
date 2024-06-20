@@ -72,6 +72,11 @@ class SensorDevice:
             self.last_print_time = now
 
         self.data = self.read()
+
+        for interface in self.interfaces:
+            if interface.calibration is not None:
+                self.data[interface.name] += interface.calibration
+
         self.last_read_time = now
         return True
 
