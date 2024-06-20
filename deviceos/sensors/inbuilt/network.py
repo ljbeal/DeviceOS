@@ -4,7 +4,7 @@ from deviceos.sensors.sensordevice import SensorDevice
 
 class Network(SensorDevice):
     def __init__(self, ip):
-        super().__init__(name="network")
+        super().__init__(name="network", interval=86400)
         self.ip = ip
         self.interfaces = [Output(name="IP", icon="mdi:ip-network-outline", diagnostic=True)]
 
