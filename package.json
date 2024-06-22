@@ -1,14 +1,14 @@
 {
     "urls": [
-        ["__init__.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/__init__.py"],
-        ["board/__init__.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/board/__init__.py"],
-        ["board/board.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/board/board.py"],
-        ["board/mqttmixin.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/board/mqttmixin.py"],
-        ["board/wifimixin.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/board/wifimixin.py"],
-        ["sensors/__init__.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/sensors/__init__.py"],
-        ["sensors/sensordevice.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/sensors/sensordevice.py"],
-        ["sensors/subsensors/__init__.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/sensors/subsensors/__init__.py"],
-        ["sensors/subsensors/output.py", "https://raw.githubusercontent.com/ljbeal/DeviceOS/blob/main/deviceos/sensors/subsensors/output.py"]
+        ["__init__.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/__init__.py"],
+        ["board/__init__.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/board/__init__.py"],
+        ["board/board.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/board/board.py"],
+        ["board/mqttmixin.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/board/mqttmixin.py"],
+        ["board/wifimixin.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/board/wifimixin.py"],
+        ["sensors/__init__.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/sensors/__init__.py"],
+        ["sensors/sensordevice.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/sensors/sensordevice.py"],
+        ["sensors/subsensors/__init__.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/sensors/subsensors/__init__.py"],
+        ["sensors/subsensors/output.py", "https:/raw.githubusercontent.com/ljbeal/DeviceOS/main/deviceos/sensors/subsensors/output.py"]
     ],
     "deps": [
         ["umqtt.simple", "latest"]
