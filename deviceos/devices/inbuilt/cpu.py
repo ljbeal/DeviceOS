@@ -6,7 +6,7 @@ class CPU(Device):
     """
     Basic Sensor for reporting CPU temp
 
-    Functions as an example for simple sensors
+    Functions as an example for simple devices
     """
 
     def __init__(self):

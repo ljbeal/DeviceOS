@@ -3,7 +3,7 @@ SensorDevice is the base class that represents a single sensor breakout
 """
 import time
 
-from deviceos.sensors.subsensors.output import Output
+from deviceos.devices.io.output import Output
 
 
 class Device:

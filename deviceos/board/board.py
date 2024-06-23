@@ -1,5 +1,5 @@
 """
-Contains the Board class, the toplevel class for all sensors
+Contains the Board class, the toplevel class for all devices
 
 Also handles wifi and mqtt functionality
 """
@@ -14,7 +14,7 @@ from machine import unique_id  # pylint: disable=import-error
 import deviceos
 from deviceos.board.mqttmixin import MQTTMixin
 from deviceos.board.wifimixin import WiFiMixin
-from deviceos.sensors.device import Device
+from deviceos.devices.device import Device
 
 
 class Board(WiFiMixin, MQTTMixin):
@@ -109,7 +109,7 @@ class Board(WiFiMixin, MQTTMixin):
 
     @property
     def sensors(self) -> list:
-        """Returns a list of sensors"""
+        """Returns a list of devices"""
         return [item for item in self.devices if isinstance(item, Device)]
 
     @property

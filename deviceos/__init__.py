@@ -1,6 +1,6 @@
 from deviceos.board.board import Board
-from deviceos.sensors.device import Device
-from deviceos.sensors.subsensors.output import Output
+from deviceos.devices.device import Device
+from deviceos.devices.io.output import Output
 
 
 __all__ = ["Board", "Device", "Output"]

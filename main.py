@@ -5,8 +5,8 @@ main.py always runs on pico startup
 import secrets as s
 
 from deviceos.board import Board
-from deviceos.sensors.inbuilt.cpu import CPU
-from deviceos.sensors.inbuilt.network import Network
+from deviceos.devices.inbuilt.cpu import CPU
+from deviceos.devices.inbuilt.network import Network
 
 
 board = Board(wlan_ssid=s.wifi["ssid"],
