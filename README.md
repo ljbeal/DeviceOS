@@ -6,9 +6,14 @@ Devices support MQTT Discovery, so no faffing with configuration.yaml files.
 
 ## Installation
 
-Installation is... messy right now. The best way is to download the files and add them to your pico. Thonny is not amazing for this, so vscode with the MicroPico plugin is probably best.
+Installation can be done via micropython's `mip` package. Connect your board to wifi, and do the following:
 
-A `package.json` method is currently WIP.
+```
+import mip
+mip.install("github:ljbeal/DeviceOS", version="main")
+```
+
+Note that due to a quirk with mip, the `version="main"` is _required_.
 
 ## Configuration
 

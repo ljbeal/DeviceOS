@@ -1,14 +1,17 @@
 {
     "urls": [
-        ["deviceos/__init__.py", "github:ljbeal/DeviceOS/main/deviceos/__init__.py"],
-        ["deviceos/board/__init__.py", "github:ljbeal/DeviceOS/main/deviceos/board/__init__.py"],
-        ["deviceos/board/board.py", "github:ljbeal/DeviceOS/main/deviceos/board/board.py"],
-        ["deviceos/board/mqttmixin.py", "github:ljbeal/DeviceOS/main/deviceos/board/mqttmixin.py"],
-        ["deviceos/board/wifimixin.py", "github:ljbeal/DeviceOS/main/deviceos/board/wifimixin.py"],
-        ["deviceos/sensors/__init__.py", "github:ljbeal/DeviceOS/main/deviceos/sensors/__init__.py"],
-        ["deviceos/sensors/sensordevice.py", "github:ljbeal/DeviceOS/main/deviceos/sensors/sensordevice.py"],
-        ["deviceos/sensors/subsensors/__init__.py", "github:ljbeal/DeviceOS/main/deviceos/sensors/subsensors/__init__.py"],
-        ["deviceos/sensors/subsensors/output.py", "github:ljbeal/DeviceOS/main/deviceos/sensors/subsensors/output.py"]
+        ["deviceos/__init__.py", "github:ljbeal/DeviceOS/deviceos/__init__.py"],
+        ["deviceos/board/__init__.py", "github:ljbeal/DeviceOS/deviceos/board/__init__.py"],
+        ["deviceos/board/board.py", "github:ljbeal/DeviceOS/deviceos/board/board.py"],
+        ["deviceos/board/mqttmixin.py", "github:ljbeal/DeviceOS/deviceos/board/mqttmixin.py"],
+        ["deviceos/board/wifimixin.py", "github:ljbeal/DeviceOS/deviceos/board/wifimixin.py"],
+        ["deviceos/sensors/__init__.py", "github:ljbeal/DeviceOS/deviceos/sensors/__init__.py"],
+        ["deviceos/sensors/sensordevice.py", "github:ljbeal/DeviceOS/deviceos/sensors/sensordevice.py"],
+        ["deviceos/sensors/subsensors/__init__.py", "github:ljbeal/DeviceOS/deviceos/sensors/subsensors/__init__.py"],
+        ["deviceos/sensors/subsensors/output.py", "github:ljbeal/DeviceOS/deviceos/sensors/subsensors/output.py"],
+        ["deviceos/sensors/inbuilt/__init__.py", "github:ljbeal/DeviceOS/deviceos/sensors/inbuilt/__init__.py"],
+        ["deviceos/sensors/inbuilt/cpu.py", "github:ljbeal/DeviceOS/deviceos/sensors/inbuilt/cpu.py"],
+        ["deviceos/sensors/inbuilt/network.py", "github:ljbeal/DeviceOS/deviceos/sensors/inbuilt/network.py"]
     ],
     "deps": [
         ["umqtt.simple", "latest"]
