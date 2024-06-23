@@ -101,11 +101,11 @@ class Board(WiFiMixin, MQTTMixin):
         while not self.connect_to_mqtt():
             pass
 
-    def add_device(self, sensor: Device) -> None:
+    def add_device(self, device: Device) -> None:
         """Add a preconfigured sensor to the board"""
-        for interface in sensor.interfaces:
+        for interface in device.interfaces:
             interface.parent = self
-        self.devices.append(sensor)
+        self.devices.append(device)
 
     @property
     def sensors(self) -> list:
