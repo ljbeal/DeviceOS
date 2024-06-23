@@ -4,3 +4,4 @@ secrets.py
 prototype/
 examples/
 DeviceOS.code-workspace
+.idea/
