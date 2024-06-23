@@ -30,6 +30,6 @@ jobs:
           git commit -m "[auto] update package.json"
     - name: Push changes # push the output folder to your repo
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PAT: ${{ secrets.PAT }}
       run: |
-        git push
+        git push https://ljbeal:${{ secrets.PAT }}@github.com/ljbeal/DeviceOS.git auto-packaging
