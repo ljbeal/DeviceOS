@@ -2,6 +2,8 @@ name: PackageGenerate
 
 on: [push]
 
+permissions: read-all
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,6 +31,6 @@ jobs:
     - name: Push changes # push the output folder to your repo
       uses: ad-m/github-push-action@master
       with:
-        branch: main
+        branch: auto-packaging  # should only run on main once completed
         github_token: ${{ secrets.GITHUB_TOKEN }}
         force: true
