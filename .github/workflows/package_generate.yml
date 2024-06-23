@@ -20,7 +20,7 @@ jobs:
         pip install setuptools
     - name: Generate and replace package.json
       run: |
-        python ./setup.py
+        python3 ./setup.py
         - name: Commit files # commit the output folder
     # - name: commit and push changes
     #   run: |
