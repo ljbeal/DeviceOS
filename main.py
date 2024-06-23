@@ -17,11 +17,11 @@ board = Board(wlan_ssid=s.wifi["ssid"],
               name="DeviceOS_Test",
               area="Desk")
 
-board.add_sensor(CPU())
-board.add_sensor(Network(ip=board.ip))
+board.add_device(CPU())
+board.add_device(Network(ip=board.ip))
 
 from examples.bme280 import BME280_MQTT
-board.add_sensor(BME280_MQTT(sda=16, scl=17))
+board.add_device(BME280_MQTT(sda=16, scl=17))
 
 board.discover()
 board.run()
