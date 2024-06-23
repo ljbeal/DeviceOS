@@ -62,3 +62,98 @@ By default, these are both set to 15s, so they are in sync. But they can be chan
 An example of this is the inbuilt `network` device, which reports the board's IP address back to Homeassistant. It has an internal `interval` of 86400s (1 day), so only updates on first boot, and then every 24h after that (a typical DHCP lease length).
 
 One potential use case of this is to _lower_ the interval, and to keep a running total. Lets say we have a noisy sensor, we can set the `interval` to 0.1s and keep a running total. When `Board` comes around and asks for data (every 15s by default), it can report a statistical value based on this storage.
+
+
+## Devices
+
+### Base Class
+
+Sensors can be created by subclassing the `Device` class. Define the usual `__init__` method, and be sure to call the `super().__init__()` method. You should specify the sensor name here by passing `name="name"`.
+
+```
+from deviceos import Device
+
+class MyTempSensor(Device):
+    def __init__(self):
+        super().__init__(name="sensor")
+```
+
+### Interfaces
+
+You can now specify the expected outputs of your sensor, using the `Ouput` class. Add these to a list called `interfaces`.
+
+It is important that this matches the output of your later `read()` function, but we'll come to this later.
+
+```
+from deviceos import Device, Output  # also import Output
+
+class MyTempSensor(Device):
+    def __init__(self):
+        super().__init__(name="sensor")
+
+        # in a reality, this would be an actual sensor object
+        self.sensor = ...
+
+        self.interfaces = [
+            Output(
+                name="temperature",
+                unit="C",
+                icon="mdi:thermometer",
+                format_mod="round(2)"
+            )
+        ]
+```
+
+### Read function
+
+The final thing to do is to specify the `read()` function that will be called by `Board`. This should return a `dict` that matches the `interfaces` list.
+
+```
+from deviceos import Device, Output  # also import Output
+
+class MyTempSensor(Device):
+    def __init__(self):
+        super().__init__(name="sensor")
+
+        self.interfaces = [
+            Output(
+                name="temperature",
+                unit="C",
+                icon="mdi:thermometer",
+                format_mod="round(2)"
+            )
+        ]
+
+    def read(self):
+        # read the data from your sensor
+        data = self.sensor.temperature
+
+        return {"temperature: data}
+```
+
+### Testing your devices
+
+If you are creating your device in a separate file, you can interact with them without worrying about connecting to wifi or mqtt.
+
+It is good practice to create your devices in individual modules and add a testing block to the bottom of each.
+
+```
+...
+
+if __name__ == "__main__":
+    import time
+    test = MyTempSensor():
+    
+    while True:
+        print(test.read())
+
+        time.sleep(1)
+```
+
+This will attempt to print the `read()` output every second, until killed. By emulating the run in this way, you can check that the output of the sensor at least looks sensible.
+
+## Adding Devices
+
+Now you have a sensor, you should add it to your `Board`
+
+This can be done by calling the `Board.add_device(device)` method after creating your device.
