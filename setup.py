@@ -28,11 +28,11 @@ for package in packages:
     files = os.listdir(path)
 
     for file in files:
-
         if file == "__pycache__":
             continue
 
         source_path = f"{path}/{file}".replace("\\", "/")
+        source_path = source_path.replace("//", "/")
         url = f"github:ljbeal/DeviceOS/{source_path}"
 
         output["urls"].append([source_path, url])
@@ -44,6 +44,7 @@ for package in packages:
                 match = re.search(version_pattern, source)
                 if match:
                     output["version"] = match.group(1)
+
 
 if "version" not in output:
     raise RuntimeError("version was not extracted")
