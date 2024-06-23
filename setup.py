@@ -29,6 +29,9 @@ for package in packages:
 
     for file in files:
 
+        if file == "__pycache__":
+            continue
+
         source_path = f"{path}/{file}".replace("\\", "/")
         url = f"github:ljbeal/DeviceOS/{source_path}"
 
