@@ -19,7 +19,7 @@ packages=find_packages(
 
 output = {
     "urls": [],
-    "deps": ["umqtt.simple"],
+    "deps": [["umqtt.simple", "latest"]],
 }
 for package in packages:
 
