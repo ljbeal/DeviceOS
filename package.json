@@ -21,14 +21,6 @@
       "github:ljbeal/DeviceOS/deviceos/devices/device.py"
     ],
     [
-      "deviceos/devices/inbuilt",
-      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt"
-    ],
-    [
-      "deviceos/devices/io",
-      "github:ljbeal/DeviceOS/deviceos/devices/io"
-    ],
-    [
       "deviceos/devices/__init__.py",
       "github:ljbeal/DeviceOS/deviceos/devices/__init__.py"
     ],
@@ -51,14 +43,6 @@
     [
       "deviceos/devices/io/__init__.py",
       "github:ljbeal/DeviceOS/deviceos/devices/io/__init__.py"
-    ],
-    [
-      "deviceos/board",
-      "github:ljbeal/DeviceOS/deviceos/board"
-    ],
-    [
-      "deviceos/devices",
-      "github:ljbeal/DeviceOS/deviceos/devices"
     ],
     [
       "deviceos/__init__.py",
