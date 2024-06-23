@@ -19,8 +19,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install setuptools
     - name: Generate and replace package.json
-      run: |
-        python3 ./setup.py
+      run: python3 ./setup.py
     # - name: commit and push changes
     #   run: |
     #       git config --local user.email "test@github.com"
