@@ -1,6 +1,6 @@
 {
     "urls": [
-        ["deviceos/__init__.py", "github:ljbeal/DeviceOS/main/deviceos/__init__.py"]
+        ["deviceos/__init__.py", "github:ljbeal/DeviceOS/deviceos/__init__.py"]
     ],
     "deps": [
         ["umqtt.simple", "latest"]
