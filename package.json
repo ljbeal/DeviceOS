@@ -1,20 +1,80 @@
 {
-    "urls": [
-        ["deviceos/__init__.py", "github:ljbeal/DeviceOS/deviceos/__init__.py"],
-        ["deviceos/board/__init__.py", "github:ljbeal/DeviceOS/deviceos/board/__init__.py"],
-        ["deviceos/board/board.py", "github:ljbeal/DeviceOS/deviceos/board/board.py"],
-        ["deviceos/board/mqttmixin.py", "github:ljbeal/DeviceOS/deviceos/board/mqttmixin.py"],
-        ["deviceos/board/wifimixin.py", "github:ljbeal/DeviceOS/deviceos/board/wifimixin.py"],
-        ["deviceos/sensors/__init__.py", "github:ljbeal/DeviceOS/deviceos/sensors/__init__.py"],
-        ["deviceos/sensors/sensordevice.py", "github:ljbeal/DeviceOS/deviceos/sensors/sensordevice.py"],
-        ["deviceos/sensors/subsensors/__init__.py", "github:ljbeal/DeviceOS/deviceos/sensors/subsensors/__init__.py"],
-        ["deviceos/sensors/subsensors/output.py", "github:ljbeal/DeviceOS/deviceos/sensors/subsensors/output.py"],
-        ["deviceos/sensors/inbuilt/__init__.py", "github:ljbeal/DeviceOS/deviceos/sensors/inbuilt/__init__.py"],
-        ["deviceos/sensors/inbuilt/cpu.py", "github:ljbeal/DeviceOS/deviceos/sensors/inbuilt/cpu.py"],
-        ["deviceos/sensors/inbuilt/network.py", "github:ljbeal/DeviceOS/deviceos/sensors/inbuilt/network.py"]
+  "urls": [
+    [
+      "deviceos/board/board.py",
+      "github:ljbeal/DeviceOS/deviceos/board/board.py"
     ],
-    "deps": [
-        ["umqtt.simple", "latest"]
+    [
+      "deviceos/board/mqttmixin.py",
+      "github:ljbeal/DeviceOS/deviceos/board/mqttmixin.py"
     ],
-    "version": "0.0.1"
+    [
+      "deviceos/board/wifimixin.py",
+      "github:ljbeal/DeviceOS/deviceos/board/wifimixin.py"
+    ],
+    [
+      "deviceos/board/__init__.py",
+      "github:ljbeal/DeviceOS/deviceos/board/__init__.py"
+    ],
+    [
+      "deviceos/board/__pycache__",
+      "github:ljbeal/DeviceOS/deviceos/board/__pycache__"
+    ],
+    [
+      "deviceos/devices/device.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/device.py"
+    ],
+    [
+      "deviceos/devices/inbuilt",
+      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt"
+    ],
+    [
+      "deviceos/devices/io",
+      "github:ljbeal/DeviceOS/deviceos/devices/io"
+    ],
+    [
+      "deviceos/devices/__init__.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/__init__.py"
+    ],
+    [
+      "deviceos/devices/inbuilt/cpu.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/cpu.py"
+    ],
+    [
+      "deviceos/devices/inbuilt/network.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/network.py"
+    ],
+    [
+      "deviceos/devices/inbuilt/__init__.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/__init__.py"
+    ],
+    [
+      "deviceos/devices/io/output.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/output.py"
+    ],
+    [
+      "deviceos/devices/io/__init__.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/__init__.py"
+    ],
+    [
+      "deviceos//board",
+      "github:ljbeal/DeviceOS/deviceos//board"
+    ],
+    [
+      "deviceos//devices",
+      "github:ljbeal/DeviceOS/deviceos//devices"
+    ],
+    [
+      "deviceos//__init__.py",
+      "github:ljbeal/DeviceOS/deviceos//__init__.py"
+    ],
+    [
+      "deviceos//__pycache__",
+      "github:ljbeal/DeviceOS/deviceos//__pycache__"
+    ]
+  ],
+  "deps": [
+    "umqtt.simple"
+  ],
+  "version": "0.0.1a"
 }
