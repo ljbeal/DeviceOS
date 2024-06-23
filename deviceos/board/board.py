@@ -14,7 +14,7 @@ from machine import unique_id  # pylint: disable=import-error
 import deviceos
 from deviceos.board.mqttmixin import MQTTMixin
 from deviceos.board.wifimixin import WiFiMixin
-from deviceos.sensors.sensordevice import SensorDevice
+from deviceos.sensors.device import Device
 
 
 class Board(WiFiMixin, MQTTMixin):
@@ -101,7 +101,7 @@ class Board(WiFiMixin, MQTTMixin):
         while not self.connect_to_mqtt():
             pass
 
-    def add_sensor(self, sensor: SensorDevice) -> None:
+    def add_sensor(self, sensor: Device) -> None:
         """Add a preconfigured sensor to the board"""
         for interface in sensor.interfaces:
             interface.parent = self
@@ -110,7 +110,7 @@ class Board(WiFiMixin, MQTTMixin):
     @property
     def sensors(self) -> list:
         """Returns a list of sensors"""
-        return [item for item in self.devices if isinstance(item, SensorDevice)]
+        return [item for item in self.devices if isinstance(item, Device)]
 
     @property
     def device_info(self) -> dict:

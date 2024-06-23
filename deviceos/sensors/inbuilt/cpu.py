@@ -1,9 +1,8 @@
-from deviceos.sensors.subsensors.output import Output
-from deviceos.sensors.sensordevice import SensorDevice
+from deviceos import Output, Device
 
 import machine  # pylint: disable=import-error
 
-class CPU(SensorDevice):
+class CPU(Device):
     """
     Basic Sensor for reporting CPU temp
 

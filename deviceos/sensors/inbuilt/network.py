@@ -1,8 +1,7 @@
-from deviceos.sensors.subsensors.output import Output
-from deviceos.sensors.sensordevice import SensorDevice
+from deviceos import Output, Device
 
 
-class Network(SensorDevice):
+class Network(Device):
     """
     Stub class for reporting the IP diagnostic
 

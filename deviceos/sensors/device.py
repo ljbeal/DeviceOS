@@ -6,7 +6,7 @@ import time
 from deviceos.sensors.subsensors.output import Output
 
 
-class SensorDevice:
+class Device:
     """
     Class to reference a single sensor device,
     this should be at the same level as the sensor's API module
