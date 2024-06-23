@@ -25,12 +25,11 @@ jobs:
     - name: commit and push changes
       run: |
           git config --local user.email "test@github.com"
-          git config --local user.name ${{ github.actor }}
+          git config --local user.name "github-actions[bot]"
           git add ./package.json
           git commit -m "[auto] update package.json"
     - name: Push changes # push the output folder to your repo
-      uses: ad-m/github-push-action@master
-      with:
-        branch: auto-packaging  # should only run on main once completed
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        force: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git push origin main
