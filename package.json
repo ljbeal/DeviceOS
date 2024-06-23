@@ -17,10 +17,6 @@
       "github:ljbeal/DeviceOS/deviceos/board/__init__.py"
     ],
     [
-      "deviceos/board/__pycache__",
-      "github:ljbeal/DeviceOS/deviceos/board/__pycache__"
-    ],
-    [
       "deviceos/devices/device.py",
       "github:ljbeal/DeviceOS/deviceos/devices/device.py"
     ],
@@ -57,20 +53,16 @@
       "github:ljbeal/DeviceOS/deviceos/devices/io/__init__.py"
     ],
     [
-      "deviceos//board",
-      "github:ljbeal/DeviceOS/deviceos//board"
+      "deviceos/board",
+      "github:ljbeal/DeviceOS/deviceos/board"
     ],
     [
-      "deviceos//devices",
-      "github:ljbeal/DeviceOS/deviceos//devices"
+      "deviceos/devices",
+      "github:ljbeal/DeviceOS/deviceos/devices"
     ],
     [
-      "deviceos//__init__.py",
-      "github:ljbeal/DeviceOS/deviceos//__init__.py"
-    ],
-    [
-      "deviceos//__pycache__",
-      "github:ljbeal/DeviceOS/deviceos//__pycache__"
+      "deviceos/__init__.py",
+      "github:ljbeal/DeviceOS/deviceos/__init__.py"
     ]
   ],
   "deps": [
