@@ -108,7 +108,7 @@ class Interface:
 
     @property
     def discovery_payload(self):
-        return NotImplemented
+        raise NotImplementedError
 
     def discover(self) -> None:
         """
