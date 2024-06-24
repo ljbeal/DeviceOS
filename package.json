@@ -1,16 +1,16 @@
 {
   "urls": [
     [
+      "deviceos/board/wifimixin.py",
+      "github:ljbeal/DeviceOS/deviceos/board/wifimixin.py"
+    ],
+    [
       "deviceos/board/board.py",
       "github:ljbeal/DeviceOS/deviceos/board/board.py"
     ],
     [
       "deviceos/board/mqttmixin.py",
       "github:ljbeal/DeviceOS/deviceos/board/mqttmixin.py"
-    ],
-    [
-      "deviceos/board/wifimixin.py",
-      "github:ljbeal/DeviceOS/deviceos/board/wifimixin.py"
     ],
     [
       "deviceos/board/__init__.py",
@@ -25,6 +25,14 @@
       "github:ljbeal/DeviceOS/deviceos/devices/__init__.py"
     ],
     [
+      "deviceos/devices/io/output.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/output.py"
+    ],
+    [
+      "deviceos/devices/io/__init__.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/__init__.py"
+    ],
+    [
       "deviceos/devices/inbuilt/cpu.py",
       "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/cpu.py"
     ],
@@ -35,14 +43,6 @@
     [
       "deviceos/devices/inbuilt/__init__.py",
       "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/__init__.py"
-    ],
-    [
-      "deviceos/devices/io/output.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/io/output.py"
-    ],
-    [
-      "deviceos/devices/io/__init__.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/io/__init__.py"
     ],
     [
       "deviceos/__init__.py",
