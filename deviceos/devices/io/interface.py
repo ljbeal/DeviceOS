@@ -1,6 +1,7 @@
 """
 Interface is the base class for all IO objects
 """
+
 import json
 
 
@@ -24,13 +25,13 @@ class Interface:
     """
 
     __slots__ = [
-        "_name", 
-        "_icon", 
-        "_force_update", 
+        "_name",
+        "_icon",
+        "_force_update",
         "_is_diagnostic",
         "_component",
         "_parent",
-        ]
+    ]
 
     def __init__(
         self,
@@ -51,7 +52,9 @@ class Interface:
 
         for char in illegal_chars:
             if char in name:
-                raise ValueError(f"Name cannot contain illegal characters: {illegal_chars}")
+                raise ValueError(
+                    f"Name cannot contain illegal characters: {illegal_chars}"
+                )
 
         self._is_diagnostic = diagnostic
 
@@ -96,7 +99,7 @@ class Interface:
         payload = {
             "name": self.name,
             "icon": self.icon,
-            }
+        }
 
         if self.diagnostic:
             payload["entity_category"] = "diagnostic"
@@ -130,7 +133,5 @@ class Interface:
         print(payload)
 
         self.parent.publish(
-            topic=discovery_topic,
-            message=json.dumps(payload),
-            retain=False
-            )
+            topic=discovery_topic, message=json.dumps(payload), retain=False
+        )

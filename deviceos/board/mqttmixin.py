@@ -1,6 +1,7 @@
 """
 Mixin class providing MQTT functionality
 """
+
 import time
 
 try:
@@ -39,7 +40,7 @@ class MQTTMixin:
         "_mqtt_pass",
         "_mqtt_port",
         "_reset_flag",
-        ]
+    ]
 
     @property
     def mqtt(self) -> MQTTClient:
@@ -79,7 +80,6 @@ class MQTTMixin:
 
         print("Connecting to MQTT Broker... Done.")
         return True
-
 
     def publish(self, topic: str, message: str, retain: bool = False) -> None:
         """Passthrough for umqtt.simple MQTTClient.publish"""

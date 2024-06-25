@@ -1,6 +1,7 @@
 """
 SensorDevice is the base class that represents a single sensor breakout
 """
+
 import time
 
 from deviceos.devices.io.output import Output
@@ -23,12 +24,12 @@ class Device:
     """
 
     __slots__ = [
-        "_name", 
-        "interfaces", 
-        "interval", 
-        "last_read_time", 
+        "_name",
+        "interfaces",
+        "interval",
+        "last_read_time",
         "data",
-        "last_print_time"
+        "last_print_time",
     ]
 
     def __init__(self, name: str, interval: int = 15):

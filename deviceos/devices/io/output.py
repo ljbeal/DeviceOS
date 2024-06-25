@@ -5,6 +5,7 @@ For example a light sensor would have one output (the light level),
 whereas a combination sensor may have multiple. A particulate sensor may have 
 three, for PM10, 2.5 and 1.0.
 """
+
 import json
 
 
@@ -31,10 +32,10 @@ class Output(Interface):
     """
 
     __slots__ = [
-        "_unit", 
+        "_unit",
         "_format",
         "calibration",
-        ]
+    ]
 
     def __init__(
         self,
@@ -48,12 +49,12 @@ class Output(Interface):
         calibration: int | float | None = None,
     ):
         super().__init__(
-            name=name, 
-            icon=icon, 
-            component=component, 
-            diagnostic=diagnostic, 
-            force_update=force_update
-            )
+            name=name,
+            icon=icon,
+            component=component,
+            diagnostic=diagnostic,
+            force_update=force_update,
+        )
 
         self._unit = unit
         self.calibration = calibration

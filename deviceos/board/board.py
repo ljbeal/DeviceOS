@@ -41,7 +41,7 @@ class Board(WiFiMixin, MQTTMixin):
         "interval",
         "last_update_time",
         "_discovered",
-        ]
+    ]
 
     def __init__(
         self,
@@ -54,7 +54,7 @@ class Board(WiFiMixin, MQTTMixin):
         discovery_prefix: str = "homeassistant",
         interval: int = 15,
         name: str = "DeviceOS_Test",
-        area: str | None = None
+        area: str | None = None,
     ):
         network.hostname(name)
         self.name = name
@@ -119,8 +119,8 @@ class Board(WiFiMixin, MQTTMixin):
             "sw_version": deviceos.__version__,
             "identifiers": self.identifiers,
             "name": self.name,
-            "manufacturer": "ljbeal"
-            }
+            "manufacturer": "ljbeal",
+        }
 
         if self.area is not None:
             payload["suggested_area"] = self.area
@@ -138,8 +138,11 @@ class Board(WiFiMixin, MQTTMixin):
 
     def discover(self) -> None:
         """Initiate discovery"""
-        for sensor in self.sensors:
-            for interface in sensor.interfaces:
+        for device in self.sensors:
+            print(
+                f"discovering sensor {device} with {len(device.interfaces)} interfaces"
+            )
+            for interface in device.interfaces:
                 interface.discover()
 
         self._discovered = True
@@ -147,7 +150,7 @@ class Board(WiFiMixin, MQTTMixin):
     def read_sensors(self) -> bool:
         """
         Read all of the sensor data into their respective names
-        
+
         Returns True if there is something to publish, else False
         """
         update = False
