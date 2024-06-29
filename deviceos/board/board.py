@@ -190,7 +190,7 @@ class Board(WiFiMixin, MQTTMixin):
 
         payload = {}
         for sensor in self.sensors:
-            payload.update(sensor.data)
+            payload.update(sensor.internal_data)
 
         print(f"{now}: {topic}")
         print(payload)

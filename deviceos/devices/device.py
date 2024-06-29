@@ -28,7 +28,7 @@ class Device:
         "interfaces",
         "interval",
         "last_read_time",
-        "data",
+        "_internal_data",
         "last_print_time",
     ]
 
@@ -37,7 +37,7 @@ class Device:
 
         self.interfaces = []
 
-        self.data = {}
+        self._internal_data = {}
 
         self.last_read_time = 0
         self.interval = interval
@@ -61,6 +61,15 @@ class Device:
         """Returns the stored name"""
         return self._name
 
+    @property
+    def internal_data(self):
+        """Provides access to the internal data storage"""
+        return self._internal_data
+
+    @internal_data.setter
+    def internal_data(self, data):
+        self._internal_data = data
+
     def internal_device_read(self, force: bool = False) -> bool:
         """Internal read, stores the output of the user read() into the data property"""
         now = int(time.time())
@@ -72,11 +81,11 @@ class Device:
             print(f"updating {self.name}")
             self.last_print_time = now
 
-        self.data = self.read()
+        self._internal_data = self.read()
 
         for interface in self.interfaces:
             if getattr(interface, "calibration", None) is not None:
-                self.data[interface.name] += interface.calibration
+                self._internal_data[interface.name] += interface.calibration
         if not force:
             self.last_read_time = now
         return True
