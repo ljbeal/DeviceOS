@@ -75,7 +75,7 @@ class Device:
         self.data = self.read()
 
         for interface in self.interfaces:
-            if interface.calibration is not None:
+            if getattr(interface, "calibration", None) is not None:
                 self.data[interface.name] += interface.calibration
 
         self.last_read_time = now
