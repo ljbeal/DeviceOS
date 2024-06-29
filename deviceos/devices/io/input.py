@@ -40,3 +40,7 @@ class Input(Interface):
         payload["payload_off"] = "OFF"
 
         return payload
+
+    def discover(self):
+        self.parent.subscribe(self.command_topic, self.callback)
+        super().discover()

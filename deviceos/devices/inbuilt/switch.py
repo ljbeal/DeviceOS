@@ -14,16 +14,13 @@ class Switch(Device):
             Input(name="test", icon="mdi:toggle-switch-off", callback=self.callback)
         ]
 
-    def callback(self):
+    def callback(self, msg: str):
         print("Switch was flipped on the UI")
-
         switch = self.get_interface("test")
-
-        icons = [
-            "mdi:toggle-switch-on",
-            "mdi:toggle-switch-off",
-        ]
-        switch.icon = icons[0 if switch.value else 1]
+        if msg == "ON":
+            switch.value = True
+        else:
+            switch.value = False
 
     def read(self):
         switch = self.get_interface("test")

@@ -138,6 +138,7 @@ class Board(WiFiMixin, MQTTMixin):
 
     def discover(self) -> None:
         """Initiate discovery"""
+        print("Initial discovery")
         for device in self.sensors:
             print(
                 f"discovering sensor {device} with {len(device.interfaces)} interfaces"
@@ -168,22 +169,25 @@ class Board(WiFiMixin, MQTTMixin):
         if not self._discovered:
             self.discover()
 
-        topic = f"{self.base_topic("sensor")}/state"
-
         while True:
-            self.read_sensors()
+            self.once()
+            self.mqtt.check_msg()
 
-            now = int(time.time())
+    def once(self, force: bool = False) -> None:
+        topic = f"{self.base_topic("sensor")}/state"
+        self.read_sensors()
 
-            if self.last_update_time + self.interval > now:
-                continue
+        now = int(time.time())
 
-            self.last_update_time = now
+        if not force and self.last_update_time + self.interval > now:
+            return
 
-            payload = {}
-            for sensor in self.sensors:
-                payload.update(sensor.data)
+        self.last_update_time = now
 
-            print(f"{now}: {topic}")
-            print(payload)
-            self.publish(topic=topic, message=json.dumps(payload))
+        payload = {}
+        for sensor in self.sensors:
+            payload.update(sensor.data)
+
+        print(f"{now}: {topic}")
+        print(payload)
+        self.publish(topic=topic, message=json.dumps(payload))
