@@ -6,9 +6,6 @@ whereas a combination sensor may have multiple. A particulate sensor may have
 three, for PM10, 2.5 and 1.0.
 """
 
-import json
-
-
 from deviceos.devices.io.interface import Interface
 
 
