@@ -34,7 +34,9 @@ class Input(Interface):
     def discovery_payload(self) -> dict:
         """Returns the discovery payload"""
         payload = self.base_discovery_payload
-        payload["value_template"] = f"{{{{ value_json.{self.name }}}}}"
+        payload["value_template"] = f"{{{{ value_json.{self.name} }}}}"
         payload["command_topic"] = self.command_topic
+        payload["payload_on"] = "ON"
+        payload["payload_off"] = "OFF"
 
         return payload
