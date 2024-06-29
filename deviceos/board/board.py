@@ -175,6 +175,9 @@ class Board(WiFiMixin, MQTTMixin):
             self.mqtt.check_msg()
 
     def once(self, force: bool = False) -> None:
+        """
+        Attempts to read and submit, once
+        """
         topic = f"{self.base_topic("sensor")}/state"
         self.read_sensors()
 

@@ -41,6 +41,12 @@ class Input(Interface):
 
         return payload
 
+    def _internal_callback(self, *args, **kwargs):
+        """
+        Internal call back handler for inserting functionality between msg recv and call
+        """
+        self.callback(*args, **kwargs)
+
     def discover(self):
         self.board.subscribe(self.command_topic, self.callback)
         super().discover()
