@@ -27,7 +27,7 @@ class Input(Interface):
 
     @property
     def command_topic(self):
-        base_topic = self.parent.base_topic(self._component)
+        base_topic = self.board.base_topic(self._component)
         return f"{base_topic}/set"
 
     @property
@@ -42,5 +42,5 @@ class Input(Interface):
         return payload
 
     def discover(self):
-        self.parent.subscribe(self.command_topic, self.callback)
+        self.board.subscribe(self.command_topic, self.callback)
         super().discover()

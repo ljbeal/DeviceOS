@@ -104,7 +104,8 @@ class Board(WiFiMixin, MQTTMixin):
     def add_device(self, device: Device) -> None:
         """Add a preconfigured sensor to the board"""
         for interface in device.interfaces:
-            interface.parent = self
+            interface.board = self
+            interface.parent = device
         self.devices.append(device)
 
     @property

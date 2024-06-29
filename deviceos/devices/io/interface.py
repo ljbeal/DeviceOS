@@ -30,7 +30,8 @@ class Interface:
         "_force_update",
         "_is_diagnostic",
         "_component",
-        "_parent",
+        "_board",  # provides access to Board level functions
+        "_parent",  # provides access to parent Device
     ]
 
     def __init__(
@@ -46,6 +47,7 @@ class Interface:
 
         self._component = component
 
+        self._board = None
         self._parent = None
 
         self._force_update = force_update
@@ -69,9 +71,21 @@ class Interface:
         return self._parent
 
     @parent.setter
-    def parent(self, parent: "Board"):
+    def parent(self, parent: "Device"):
         print(f"Setting parent for {self.name}")
         self._parent = parent
+
+    @property
+    def board(self) -> "Board":
+        """Allows access to the parent Board object"""
+        if self._board is None:
+            raise ValueError(f"Parent has not been updated for {self.name}")
+        return self._board
+
+    @board.setter
+    def board(self, board: "Board"):
+        print(f"Setting parent for {self.name}")
+        self._board = board
 
     @property
     def name(self) -> str:
@@ -119,12 +133,12 @@ class Interface:
         """
         payload = self.discovery_payload
 
-        payload["device"] = self.parent.device_info
+        payload["device"] = self.board.device_info
 
-        base_topic = self.parent.base_topic(self._component)
+        base_topic = self.board.base_topic(self._component)
 
-        payload["state_topic"] = f"{self.parent.base_topic("sensor")}/state"
-        payload["unique_id"] = f"{self.parent.uid}_{self.name}"
+        payload["state_topic"] = f"{self.board.base_topic("sensor")}/state"
+        payload["unique_id"] = f"{self.board.uid}_{self.name}"
 
         discovery_topic = f"{base_topic}/{self.name}/config"
 
@@ -132,6 +146,6 @@ class Interface:
         print(discovery_topic)
         print(payload)
 
-        self.parent.publish(
+        self.board.publish(
             topic=discovery_topic, message=json.dumps(payload), retain=False
         )
