@@ -123,7 +123,7 @@ class Interface:
 
         base_topic = self.parent.base_topic(self._component)
 
-        payload["state_topic"] = f"{base_topic}/state"
+        payload["state_topic"] = f"{self.parent.base_topic("sensor")}/state"
         payload["unique_id"] = f"{self.parent.uid}_{self.name}"
 
         discovery_topic = f"{base_topic}/{self.name}/config"
