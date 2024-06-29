@@ -79,12 +79,12 @@ class Interface:
     def board(self) -> "Board":
         """Allows access to the parent Board object"""
         if self._board is None:
-            raise ValueError(f"Parent has not been updated for {self.name}")
+            raise ValueError(f"Board has not been updated for {self.name}")
         return self._board
 
     @board.setter
     def board(self, board: "Board"):
-        print(f"Setting parent for {self.name}")
+        print(f"Setting board for {self.name}")
         self._board = board
 
     @property
