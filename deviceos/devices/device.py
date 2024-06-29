@@ -61,11 +61,11 @@ class Device:
         """Returns the stored name"""
         return self._name
 
-    def internal_device_read(self) -> bool:
+    def internal_device_read(self, force: bool = False) -> bool:
         """Internal read, stores the output of the user read() into the data property"""
         now = int(time.time())
 
-        if self.last_read_time + self.interval > now:
+        if not force and self.last_read_time + self.interval > now:
             return False
 
         if self.last_print_time + 1 <= now:
@@ -77,8 +77,8 @@ class Device:
         for interface in self.interfaces:
             if getattr(interface, "calibration", None) is not None:
                 self.data[interface.name] += interface.calibration
-
-        self.last_read_time = now
+        if not force:
+            self.last_read_time = now
         return True
 
     def read(self):

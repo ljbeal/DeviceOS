@@ -10,8 +10,8 @@ class Switch(Device):
     One way switch, available only on the web side
     """
 
-    def __init__(self):
-        super().__init__(name="Switch")
+    def __init__(self, name="Switch"):
+        super().__init__(name=name)
 
         self.interfaces = [
             Input(name="test", icon="mdi:toggle-switch-off", callback=self.callback)

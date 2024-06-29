@@ -149,7 +149,7 @@ class Board(WiFiMixin, MQTTMixin):
 
         self._discovered = True
 
-    def read_sensors(self) -> bool:
+    def read_sensors(self, force: bool = False) -> bool:
         """
         Read all of the sensor data into their respective names
 
@@ -157,7 +157,7 @@ class Board(WiFiMixin, MQTTMixin):
         """
         update = False
         for sensor in self.sensors:
-            if sensor.internal_device_read():
+            if sensor.internal_device_read(force=force):
                 update = True
         return update
 
@@ -179,7 +179,7 @@ class Board(WiFiMixin, MQTTMixin):
         Attempts to read and submit, once
         """
         topic = f"{self.base_topic("sensor")}/state"
-        self.read_sensors()
+        self.read_sensors(force=force)
 
         now = int(time.time())
 
