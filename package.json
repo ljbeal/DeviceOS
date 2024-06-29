@@ -25,6 +25,14 @@
       "github:ljbeal/DeviceOS/deviceos/devices/__init__.py"
     ],
     [
+      "deviceos/devices/io/input.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/input.py"
+    ],
+    [
+      "deviceos/devices/io/interface.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/interface.py"
+    ],
+    [
       "deviceos/devices/io/output.py",
       "github:ljbeal/DeviceOS/deviceos/devices/io/output.py"
     ],
@@ -43,6 +51,10 @@
     [
       "deviceos/devices/inbuilt/__init__.py",
       "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/__init__.py"
+    ],
+    [
+      "deviceos/devices/inbuilt/switch.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/switch.py"
     ],
     [
       "deviceos/__init__.py",
