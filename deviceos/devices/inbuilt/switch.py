@@ -1,3 +1,6 @@
+"""
+Testing module for a simple switch
+"""
 from deviceos import Device
 from deviceos.devices.io import Input
 
@@ -7,7 +10,7 @@ class Switch(Device):
     One way switch, available only on the web side
     """
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self):
         super().__init__(name="Switch")
 
         self.interfaces = [
@@ -17,6 +20,11 @@ class Switch(Device):
         self.value = True
 
     def callback(self, msg: str):
+        """
+        Callback receives msg from home assistant
+
+        ON/OFF as set by payload_on/off properties
+        """
         if msg == "ON":
             print("switch value set to True")
             self.value = True
