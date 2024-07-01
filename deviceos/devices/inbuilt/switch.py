@@ -4,6 +4,8 @@ Testing module for a simple switch
 from deviceos import Device
 from deviceos.devices.io import Input
 
+from machine import Pin
+
 
 class Switch(Device):
     """
@@ -14,10 +16,11 @@ class Switch(Device):
         super().__init__(name=name)
 
         self.interfaces = [
-            Input(name="test", icon="mdi:toggle-switch-off", callback=self.callback)
+            Input(name="Board_LED", icon="mdi:toggle-switch", callback=self.callback)
         ]
 
-        self.value = True
+        self.led = Pin("LED", Pin.OUT)
+        self.value = self.led.value()
 
     def callback(self, msg: str):
         """
@@ -28,9 +31,11 @@ class Switch(Device):
         if msg == "ON":
             print("switch value set to True")
             self.value = True
+            self.led.value(1)
         else:
             print("switch value set to False")
             self.value = False
+            self.led.value(0)
 
     def read(self):
-        return {"test": "ON" if self.value else "OFF"}
+        return {"Board_LED": "ON" if self.value else "OFF"}
