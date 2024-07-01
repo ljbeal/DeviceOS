@@ -25,11 +25,9 @@ board.add_device(BME280_MQTT(sda=16, scl=17))
 
 
 from deviceos.devices.inbuilt.switch import Switch
-switch = Switch(name="Switch")
+led = Switch(name="Board_LED")
 
-board.add_device(switch)
-
-print(switch.interfaces)
+board.add_device(led)
 
 board.discover()
 board.run()
