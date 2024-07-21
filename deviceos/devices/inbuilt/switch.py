@@ -12,15 +12,18 @@ class Switch(Device):
     One way switch, available only on the web side
     """
 
-    def __init__(self, name="Switch"):
+    def __init__(self, name="Switch", pin: int | None = None):
         super().__init__(name=name)
 
         self.interfaces = [
-            Input(name="Board_LED", icon="mdi:toggle-switch", callback=self.callback)
+            Input(name=name, icon="mdi:toggle-switch", callback=self.callback)
         ]
 
-        self.led = Pin("LED", Pin.OUT)
-        self.value = self.led.value()
+        if pin is None:
+            self.pin = Pin("LED", Pin.OUT)
+        else:
+            self.pin = Pin(pin, Pin.OUT, Pin.PULL_DOWN)
+        self.value = self.pin.value()
 
     def callback(self, msg: str):
         """
@@ -31,11 +34,11 @@ class Switch(Device):
         if msg == "ON":
             print("switch value set to True")
             self.value = True
-            self.led.value(1)
+            self.pin.value(1)
         else:
             print("switch value set to False")
             self.value = False
-            self.led.value(0)
+            self.pin.value(0)
 
     def read(self):
-        return {"Board_LED": "ON" if self.value else "OFF"}
+        return {self.name: "ON" if self.value else "OFF"}
