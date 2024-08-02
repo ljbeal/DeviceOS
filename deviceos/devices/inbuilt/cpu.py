@@ -2,6 +2,7 @@ from deviceos import Output, Device
 
 import machine  # pylint: disable=import-error
 
+
 class CPU(Device):
     """
     Basic Sensor for reporting CPU temp
@@ -18,9 +19,9 @@ class CPU(Device):
                 unit="C",
                 icon="mdi:thermometer",
                 format_mod="round(2)",
-                diagnostic=True
-                )
-            ]
+                diagnostic=True,
+            )
+        ]
 
     def read(self):
         adc = machine.ADC(4)

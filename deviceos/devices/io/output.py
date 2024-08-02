@@ -6,14 +6,13 @@ whereas a combination sensor may have multiple. A particulate sensor may have
 three, for PM10, 2.5 and 1.0.
 """
 
-
-import json
+from deviceos.devices.io.interface import Interface
 
 
 illegal_chars = [" "]
 
 
-class Output:
+class Output(Interface):
     # pylint: disable = too-many-arguments
     """
     Baseclass to mark the instance of one sensor reading
@@ -30,16 +29,10 @@ class Output:
     """
 
     __slots__ = [
-        "_name", 
-        "_icon", 
-        "_unit", 
-        "_format", 
-        "_force_update", 
-        "_is_diagnostic",
-        "_component",
-        "_parent",
+        "_unit",
+        "_format",
         "calibration",
-        ]
+    ]
 
     def __init__(
         self,
@@ -52,55 +45,20 @@ class Output:
         force_update: bool = True,
         calibration: int | float | None = None,
     ):
-        self._name = name
-        self._icon = icon
+        super().__init__(
+            name=name,
+            icon=icon,
+            component=component,
+            diagnostic=diagnostic,
+            force_update=force_update,
+        )
+
         self._unit = unit
-
         self.calibration = calibration
-
-        self._component = component
-
-        self._parent = None
-
-        self._force_update = force_update
-
-        for char in illegal_chars:
-            if char in name:
-                raise ValueError(f"Name cannot contain illegal characters: {illegal_chars}")
-
         self._format = format_mod  # format modifer such as round(2)
-
-        self._is_diagnostic = diagnostic
 
     def __repr__(self) -> str:
         return f"Output({self.name})"
-
-    @property
-    def parent(self) -> "Board":
-        """Allows access to the parent Board object"""
-        if self._parent is None:
-            raise ValueError(f"Parent has not been updated for {self.name}")
-        return self._parent
-
-    @parent.setter
-    def parent(self, parent: "Board"):
-        print(f"Setting parent for {self.name}")
-        self._parent = parent
-
-    @property
-    def name(self) -> str:
-        """Returns the specified name"""
-        return self._name
-
-    @property
-    def icon(self) -> str:
-        """Returns the specified icon"""
-        return self._icon
-
-    @icon.setter
-    def icon(self, icon: str):
-        self._icon = icon
-        self.discover()
 
     @property
     def format(self) -> None | str:
@@ -119,18 +77,11 @@ class Output:
         return self._unit
 
     @property
-    def diagnostic(self) -> bool:
-        """Returns True if this output is flagged as Diagnostic"""
-        return self._is_diagnostic
-
-    @property
     def discovery_payload(self) -> dict:
         """Returns the discovery payload"""
-        payload = {
-            "unit_of_measurement": self.unit,
-            "name": self.name,
-            "icon": self.icon,
-            }
+        payload = self.base_discovery_payload
+
+        payload["unit_of_measurement"] = self.unit
 
         value_template = ["{{ value_json."]
         value_template.append(self.name)
@@ -140,35 +91,4 @@ class Output:
         value_template.append(" }}")
         payload["value_template"] = "".join(value_template)
 
-        if self.diagnostic:
-            payload["entity_category"] = "diagnostic"
-
-        if self._force_update:
-            payload["force_update"] = True
-
         return payload
-
-    def discover(self) -> None:
-        """
-        Perform discovery for this entity
-        """
-        payload = self.discovery_payload
-
-        payload["device"] = self.parent.device_info
-
-        base_topic = self.parent.base_topic(self._component)
-
-        payload["state_topic"] = f"{base_topic}/state"
-        payload["unique_id"] = f"{self.parent.uid}_{self.name}"
-
-        discovery_topic = f"{base_topic}/{self.name}/config"
-
-        print(self.name)
-        print(discovery_topic)
-        print(payload)
-
-        self.parent.publish(
-            topic=discovery_topic,
-            message=json.dumps(payload),
-            retain=False
-            )

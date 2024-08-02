@@ -1,6 +1,7 @@
 """
 Mixin class providing MQTT functionality
 """
+
 import time
 
 try:
@@ -39,7 +40,8 @@ class MQTTMixin:
         "_mqtt_pass",
         "_mqtt_port",
         "_reset_flag",
-        ]
+        "_subscription_dispatch",
+    ]
 
     @property
     def mqtt(self) -> MQTTClient:
@@ -80,7 +82,6 @@ class MQTTMixin:
         print("Connecting to MQTT Broker... Done.")
         return True
 
-
     def publish(self, topic: str, message: str, retain: bool = False) -> None:
         """Passthrough for umqtt.simple MQTTClient.publish"""
         try:
@@ -89,3 +90,35 @@ class MQTTMixin:
             # if the connection fails, we probably need to go into a reset state
             print(f"OSError: {str(exc)}, entering reset state")
             self._reset_flag = True
+
+    def callback(self, topic: str, msg: str):
+        """
+        Global callback function for receiving messages
+
+        Args:
+            topic: topic of received message
+            msg: message received from mqtt broker
+        """
+        msg = msg.decode()
+        topic = topic.decode()
+        print(f"recieved message: {msg} on topic {topic}")
+
+        dispatch = getattr(self, "_subscription_dispatch", {})
+        if topic in dispatch:
+            dispatch[topic](msg)
+
+        self.once(force=True)
+
+    def subscribe(self, topic: str, callback: "Callable"):
+        """
+        Subscribe to topic `topic`, and link it to callback `callback`
+        """
+        print(f"subscribing to topic {topic}")
+        if not hasattr(self, "_subscription_dispatch"):
+            print("creating subscription dispatch table")
+
+            self.mqtt.set_callback(self.callback)
+            self._subscription_dispatch = {}
+
+        self._subscription_dispatch[topic] = callback
+        self.mqtt.subscribe(topic)

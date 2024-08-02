@@ -41,7 +41,7 @@ class Board(WiFiMixin, MQTTMixin):
         "interval",
         "last_update_time",
         "_discovered",
-        ]
+    ]
 
     def __init__(
         self,
@@ -54,7 +54,7 @@ class Board(WiFiMixin, MQTTMixin):
         discovery_prefix: str = "homeassistant",
         interval: int = 15,
         name: str = "DeviceOS_Test",
-        area: str | None = None
+        area: str | None = None,
     ):
         network.hostname(name)
         self.name = name
@@ -104,7 +104,8 @@ class Board(WiFiMixin, MQTTMixin):
     def add_device(self, device: Device) -> None:
         """Add a preconfigured sensor to the board"""
         for interface in device.interfaces:
-            interface.parent = self
+            interface.board = self
+            interface.parent = device
         self.devices.append(device)
 
     @property
@@ -119,8 +120,8 @@ class Board(WiFiMixin, MQTTMixin):
             "sw_version": deviceos.__version__,
             "identifiers": self.identifiers,
             "name": self.name,
-            "manufacturer": "ljbeal"
-            }
+            "manufacturer": "ljbeal",
+        }
 
         if self.area is not None:
             payload["suggested_area"] = self.area
@@ -138,21 +139,25 @@ class Board(WiFiMixin, MQTTMixin):
 
     def discover(self) -> None:
         """Initiate discovery"""
-        for sensor in self.sensors:
-            for interface in sensor.interfaces:
+        print("Initial discovery")
+        for device in self.sensors:
+            print(
+                f"discovering sensor {device} with {len(device.interfaces)} interfaces"
+            )
+            for interface in device.interfaces:
                 interface.discover()
 
         self._discovered = True
 
-    def read_sensors(self) -> bool:
+    def read_sensors(self, force: bool = False) -> bool:
         """
         Read all of the sensor data into their respective names
-        
+
         Returns True if there is something to publish, else False
         """
         update = False
         for sensor in self.sensors:
-            if sensor.internal_device_read():
+            if sensor.internal_device_read(force=force):
                 update = True
         return update
 
@@ -165,22 +170,28 @@ class Board(WiFiMixin, MQTTMixin):
         if not self._discovered:
             self.discover()
 
-        topic = f"{self.base_topic("sensor")}/state"
-
         while True:
-            self.read_sensors()
+            self.once()
+            self.mqtt.check_msg()
 
-            now = int(time.time())
+    def once(self, force: bool = False) -> None:
+        """
+        Attempts to read and submit, once
+        """
+        topic = f"{self.base_topic("sensor")}/state"
+        self.read_sensors(force=force)
 
-            if self.last_update_time + self.interval > now:
-                continue
+        now = int(time.time())
 
-            self.last_update_time = now
+        if not force and self.last_update_time + self.interval > now:
+            return
 
-            payload = {}
-            for sensor in self.sensors:
-                payload.update(sensor.data)
+        self.last_update_time = now
 
-            print(f"{now}: {topic}")
-            print(payload)
-            self.publish(topic=topic, message=json.dumps(payload))
+        payload = {}
+        for sensor in self.sensors:
+            payload.update(sensor.internal_data)
+
+        print(f"{now}: {topic}")
+        print(payload)
+        self.publish(topic=topic, message=json.dumps(payload))

@@ -23,5 +23,11 @@ board.add_device(Network(ip=board.ip))
 from examples.bme280 import BME280_MQTT
 board.add_device(BME280_MQTT(sda=16, scl=17))
 
+
+from deviceos.devices.inbuilt.switch import Switch
+led = Switch(name="Board_LED")
+
+board.add_device(led)
+
 board.discover()
 board.run()

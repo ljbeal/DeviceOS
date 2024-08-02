@@ -1,6 +1,7 @@
 """
 Mixin class providing wifi functionality
 """
+
 import time
 import network  # pylint: disable=import-error
 
@@ -18,7 +19,7 @@ class WiFiMixin:
         "_wlan",
         "_wlan_ssid",
         "_wlan_pass",
-        ]
+    ]
 
     @property
     def wlan(self) -> network.WLAN:
