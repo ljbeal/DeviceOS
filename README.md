@@ -4,6 +4,8 @@ DeviceOS is a framework for creating Homeassistant MQTT enabled devices.
 
 Devices support MQTT Discovery, so no faffing with configuration.yaml files.
 
+> ⚠️ This package is still very much WIP, so the API may change without notice! Contributions are alwawys welcome. ⚠️
+
 ## Installation
 
 Installation can be done via micropython's `mip` package. Connect your board to wifi, and do the following:
@@ -15,11 +17,70 @@ mip.install("github:ljbeal/DeviceOS", version="main")
 
 Note that due to a quirk with mip, the `version="main"` is _required_.
 
+### Installation via Script
+
+For ease of install, a simple script to connect to wifi, import mip, then finally install the package can be run.
+
+However first, we must have the necessary requirements.
+
+### Requirements
+
+Before running this script, the board must know the details of the wifi connection.
+
+To do this, create a `secrets.py` file with the following format:
+
+```py
+wifi = {
+    "ssid": "your_wifi_ssid",
+    "pass": "your_wifi_password"
+}
+
+mqtt = {
+    "host": "your_mqtt_hostname",
+    "user": "your_mqtt_username",
+    "pass": "your_mqtt_password"
+}
+```
+
+> :triangular_flag_on_post: Note:
+> 
+> The `mqtt` section is optional at this stage, but this file is also used by DeviceOS in the same format.
+>
+> If you installed MQTT within Home Assistant, your details can be found at:
+>
+> ```settings -> add-ons -> mosquitto broker -> configuration```
+
+### Script
+
+Now you can use the following script to install the package and its dependencies:
+
+```py
+import time
+import network  # pylint: disable=import-error
+import secrets as s
+
+
+wlan = network.WLAN(network.STA_IF)
+wlan.active(True)
+
+wlan.connect(s.wifi["ssid"], s.wifi["pass"])
+
+print("waiting for wlan")
+while not not wlan.isconnected() and wlan.status() < 0:
+    time.sleep(0.1)
+
+print(wlan.ifconfig())
+
+import mip  # pylint: disable=import-error
+
+mip.install("github:ljbeal/deviceos", version="main")
+```
+
 ## Configuration
 
-This package is still very much WIP, so the API may change without notice.
+This section covers the basic concepts and configuration information.
 
-With that said, here are the basic concepts:
+For a quickstart, see the `main.py` script. This will create a `DeviceOS` entity within HA that reports its CPU temperature, IP and allows you to toggle the board LED.
 
 ### Components
 
