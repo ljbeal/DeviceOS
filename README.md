@@ -4,7 +4,7 @@ DeviceOS is a framework for creating Homeassistant MQTT enabled devices.
 
 Devices support MQTT Discovery, so no faffing with configuration.yaml files.
 
-> ⚠️ This package is still very much WIP, so the API may change without notice! Contributions are alwawys welcome. ⚠️
+> ⚠️ This package is still very much WIP, so the API may change without notice! Contributions are always welcome. ⚠️
 
 ## Installation
 
