@@ -1,52 +1,44 @@
 {
   "urls": [
     [
-      "deviceos/devices/device.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/device.py"
-    ],
-    [
-      "deviceos/devices/__init__.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/__init__.py"
-    ],
-    [
-      "deviceos/board/board.py",
-      "github:ljbeal/DeviceOS/deviceos/board/board.py"
-    ],
-    [
-      "deviceos/board/mqttmixin.py",
-      "github:ljbeal/DeviceOS/deviceos/board/mqttmixin.py"
+      "deviceos/board/__init__.py",
+      "github:ljbeal/DeviceOS/deviceos/board/__init__.py"
     ],
     [
       "deviceos/board/wifimixin.py",
       "github:ljbeal/DeviceOS/deviceos/board/wifimixin.py"
     ],
     [
-      "deviceos/board/__init__.py",
-      "github:ljbeal/DeviceOS/deviceos/board/__init__.py"
+      "deviceos/board/mqttmixin.py",
+      "github:ljbeal/DeviceOS/deviceos/board/mqttmixin.py"
     ],
     [
-      "deviceos/devices/io/output.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/io/output.py"
+      "deviceos/board/board.py",
+      "github:ljbeal/DeviceOS/deviceos/board/board.py"
     ],
     [
-      "deviceos/devices/io/interface.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/io/interface.py"
+      "deviceos/devices/__init__.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/__init__.py"
     ],
     [
-      "deviceos/devices/io/input.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/io/input.py"
+      "deviceos/devices/device.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/device.py"
     ],
     [
       "deviceos/devices/io/__init__.py",
       "github:ljbeal/DeviceOS/deviceos/devices/io/__init__.py"
     ],
     [
-      "deviceos/devices/inbuilt/network.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/network.py"
+      "deviceos/devices/io/input.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/input.py"
     ],
     [
-      "deviceos/devices/inbuilt/cpu.py",
-      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/cpu.py"
+      "deviceos/devices/io/interface.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/interface.py"
+    ],
+    [
+      "deviceos/devices/io/output.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/io/output.py"
     ],
     [
       "deviceos/devices/inbuilt/switch.py",
@@ -55,6 +47,14 @@
     [
       "deviceos/devices/inbuilt/__init__.py",
       "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/__init__.py"
+    ],
+    [
+      "deviceos/devices/inbuilt/network.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/network.py"
+    ],
+    [
+      "deviceos/devices/inbuilt/cpu.py",
+      "github:ljbeal/DeviceOS/deviceos/devices/inbuilt/cpu.py"
     ],
     [
       "deviceos/__init__.py",
