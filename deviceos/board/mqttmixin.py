@@ -99,6 +99,9 @@ class MQTTMixin:
             time.sleep(30)
             self.enter_reset()
 
+        elif msg == "online":
+            self.discover()
+
     def callback(self, topic: str, msg: str):
         """
         Global callback function for receiving messages
