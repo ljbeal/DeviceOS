@@ -10,7 +10,7 @@ Devices support MQTT Discovery, so no faffing with configuration.yaml files.
 
 Installation can be done via micropython's `mip` package. Connect your board to wifi, and do the following:
 
-```
+```py
 import mip
 mip.install("github:ljbeal/DeviceOS", version="main")
 ```
@@ -74,6 +74,26 @@ print(wlan.ifconfig())
 import mip  # pylint: disable=import-error
 
 mip.install("github:ljbeal/deviceos", version="main")
+
+```
+
+### Automatically Installing
+
+You can place the following code snippet at the top of your `main.py`, which will automatically try to install the code.
+
+This means that you can update by connecting to the board and deleting the `lib` folder. The next time the board boots it will redo the install.
+
+```py
+try:
+    from deviceos import Board
+except ImportError:
+    print("ImportError for DeviceOS, attempting an install...")
+    import install
+
+    install.install()
+
+    from deviceos import Board
+
 ```
 
 ## Configuration
@@ -131,7 +151,7 @@ One potential use case of this is to _lower_ the interval, and to keep a running
 
 Sensors can be created by subclassing the `Device` class. Define the usual `__init__` method, and be sure to call the `super().__init__()` method. You should specify the sensor name here by passing `name="name"`.
 
-```
+```py
 from deviceos import Device
 
 class MyTempSensor(Device):
@@ -145,7 +165,7 @@ You can now specify the expected outputs of your sensor, using the `Ouput` class
 
 It is important that this matches the output of your later `read()` function, but we'll come to this later.
 
-```
+```py
 from deviceos import Device, Output  # also import Output
 
 class MyTempSensor(Device):
@@ -169,7 +189,7 @@ class MyTempSensor(Device):
 
 The final thing to do is to specify the `read()` function that will be called by `Board`. This should return a `dict` that matches the `interfaces` list.
 
-```
+```py
 from deviceos import Device, Output  # also import Output
 
 class MyTempSensor(Device):
@@ -198,7 +218,7 @@ If you are creating your device in a separate file, you can interact with them w
 
 It is good practice to create your devices in individual modules and add a testing block to the bottom of each.
 
-```
+```py
 ...
 
 if __name__ == "__main__":
