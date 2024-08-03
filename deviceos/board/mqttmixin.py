@@ -109,7 +109,7 @@ class MQTTMixin:
         """
         msg = msg.decode()
         topic = topic.decode()
-        print(f"recieved message: {msg} on topic {topic}")
+        print(f"received message: {msg} on topic {topic}")
 
         dispatch = getattr(self, "_subscription_dispatch", {})
         if topic in dispatch:
