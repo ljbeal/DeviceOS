@@ -95,6 +95,8 @@ class MQTTMixin:
     def status_change(self, msg: str):
         print(f"received status change: {msg}")
         if msg == "offline":
+            print("Broker offline. Sleeping for 30s and resetting.")
+            time.sleep(30)
             self.enter_reset()
 
     def callback(self, topic: str, msg: str):
