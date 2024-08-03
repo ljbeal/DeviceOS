@@ -39,7 +39,6 @@ class MQTTMixin:
         "_mqtt_user",
         "_mqtt_pass",
         "_mqtt_port",
-        "_reset_flag",
         "_subscription_dispatch",
     ]
 
@@ -79,7 +78,9 @@ class MQTTMixin:
             except OSError:  # pylint: disable=broad-exception-caught
                 time.sleep(0.5)
 
-        print("Connecting to MQTT Broker... Done.")
+        print("Connecting to MQTT Broker... Done.")        
+
+        self.subscribe("homeassistant/status", self.status_change)
         return True
 
     def publish(self, topic: str, message: str, retain: bool = False) -> None:
@@ -89,7 +90,17 @@ class MQTTMixin:
         except OSError as exc:
             # if the connection fails, we probably need to go into a reset state
             print(f"OSError: {str(exc)}, entering reset state")
-            self._reset_flag = True
+            self.enter_reset()
+
+    def status_change(self, msg: str):
+        print(f"received status change: {msg}")
+        if msg == "offline":
+            print("Broker offline. Sleeping for 30s and resetting.")
+            time.sleep(30)
+            self.enter_reset()
+
+        elif msg == "online":
+            self.discover()
 
     def callback(self, topic: str, msg: str):
         """
@@ -101,7 +112,7 @@ class MQTTMixin:
         """
         msg = msg.decode()
         topic = topic.decode()
-        print(f"recieved message: {msg} on topic {topic}")
+        print(f"received message: {msg} on topic {topic}")
 
         dispatch = getattr(self, "_subscription_dispatch", {})
         if topic in dispatch:
@@ -117,8 +128,8 @@ class MQTTMixin:
         if not hasattr(self, "_subscription_dispatch"):
             print("creating subscription dispatch table")
 
-            self.mqtt.set_callback(self.callback)
             self._subscription_dispatch = {}
 
+        self.mqtt.set_callback(self.callback)
         self._subscription_dispatch[topic] = callback
         self.mqtt.subscribe(topic)

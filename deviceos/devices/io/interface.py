@@ -147,5 +147,5 @@ class Interface:
         print(payload)
 
         self.board.publish(
-            topic=discovery_topic, message=json.dumps(payload), retain=False
+            topic=discovery_topic, message=json.dumps(payload), retain=True
         )

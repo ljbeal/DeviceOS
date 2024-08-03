@@ -41,6 +41,7 @@ class Board(WiFiMixin, MQTTMixin):
         "interval",
         "last_update_time",
         "_discovered",
+        "_reset_flag",
     ]
 
     def __init__(
@@ -62,6 +63,7 @@ class Board(WiFiMixin, MQTTMixin):
 
         self.discovery_prefix = discovery_prefix
         self._discovered = False
+        self._reset_flag = False
 
         self.interval = interval
         self.last_update_time = 0
@@ -101,6 +103,15 @@ class Board(WiFiMixin, MQTTMixin):
         while not self.connect_to_mqtt():
             pass
 
+        self._reset_flag = False
+
+    def enter_reset(self):
+        """Enters a "reset" state, attempting a reconnect until available"""
+        print("An error was encountered: Resetting")
+        self._reset_flag = True
+
+        self.setup()
+
     def add_device(self, device: Device) -> None:
         """Add a preconfigured sensor to the board"""
         for interface in device.interfaces:
@@ -121,6 +132,7 @@ class Board(WiFiMixin, MQTTMixin):
             "identifiers": self.identifiers,
             "name": self.name,
             "manufacturer": "ljbeal",
+            "model": "DeviceOS Module"
         }
 
         if self.area is not None:
@@ -163,6 +175,20 @@ class Board(WiFiMixin, MQTTMixin):
 
     def run(self) -> None:
         """Run, forever"""
+        print("running")
+
+        while True:
+            self.once()
+
+            try:
+                self.mqtt.check_msg()
+            except OSError:
+                self.enter_reset()
+
+    def once(self, force: bool = False) -> None:
+        """
+        Attempts to read and submit, once
+        """
         if hasattr(self, "_reset_flag") and self._reset_flag:
             print("we are in a reset state, attempting a reconnect")
             self.setup()
@@ -170,14 +196,6 @@ class Board(WiFiMixin, MQTTMixin):
         if not self._discovered:
             self.discover()
 
-        while True:
-            self.once()
-            self.mqtt.check_msg()
-
-    def once(self, force: bool = False) -> None:
-        """
-        Attempts to read and submit, once
-        """
         topic = f"{self.base_topic("sensor")}/state"
         self.read_sensors(force=force)
 

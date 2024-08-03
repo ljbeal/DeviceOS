@@ -1,9 +1,6 @@
 name: PackageGenerate
 
-on: 
-  push:
-    branches:
-      - main
+on: push
 # using this answer https://stackoverflow.com/questions/57921401/push-to-origin-from-github-action/58393457#58393457
 permissions:
   contents: write
