@@ -62,6 +62,7 @@ class Board(WiFiMixin, MQTTMixin):
 
         self.discovery_prefix = discovery_prefix
         self._discovered = False
+
         self._reset_flag = False
         self.interval = interval
         self.last_update_time = 0
@@ -102,6 +103,8 @@ class Board(WiFiMixin, MQTTMixin):
             pass
 
     def enter_reset(self):
+        self._reset_flag = False
+
         """Enters a "reset" state, attempting a reconnect until available"""
         print("An error was encountered: Resetting")
         self._reset_flag = True
