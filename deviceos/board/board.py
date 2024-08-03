@@ -63,6 +63,7 @@ class Board(WiFiMixin, MQTTMixin):
         self.discovery_prefix = discovery_prefix
         self._discovered = False
 
+        self._reset_flag = False
         self.interval = interval
         self.last_update_time = 0
 

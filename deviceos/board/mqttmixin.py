@@ -39,7 +39,6 @@ class MQTTMixin:
         "_mqtt_user",
         "_mqtt_pass",
         "_mqtt_port",
-        "_reset_flag",
         "_subscription_dispatch",
     ]
 
