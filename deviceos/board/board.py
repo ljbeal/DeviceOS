@@ -132,6 +132,7 @@ class Board(WiFiMixin, MQTTMixin):
             "identifiers": self.identifiers,
             "name": self.name,
             "manufacturer": "ljbeal",
+            "model": "DeviceOS Module"
         }
 
         if self.area is not None:
