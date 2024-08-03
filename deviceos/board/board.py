@@ -179,7 +179,11 @@ class Board(WiFiMixin, MQTTMixin):
 
         while True:
             self.once()
-            self.mqtt.check_msg()
+
+            try:
+                self.mqtt.check_msg()
+            except OSError:
+                self.enter_reset()
 
     def once(self, force: bool = False) -> None:
         """

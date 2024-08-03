@@ -91,12 +91,12 @@ class MQTTMixin:
         except OSError as exc:
             # if the connection fails, we probably need to go into a reset state
             print(f"OSError: {str(exc)}, entering reset state")
-            self._reset_flag = True
+            self.enter_reset()
 
     def status_change(self, msg: str):
         print(f"received status change: {msg}")
         if msg == "offline":
-            self.setup()
+            self.enter_reset()
 
     def callback(self, topic: str, msg: str):
         """
