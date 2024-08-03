@@ -101,6 +101,13 @@ class Board(WiFiMixin, MQTTMixin):
         while not self.connect_to_mqtt():
             pass
 
+    def enter_reset(self):
+        """Enters a "reset" state, attempting a reconnect until available"""
+        print("An error was encountered: Resetting")
+        self._reset_flag = True
+
+        self.setup()
+
     def add_device(self, device: Device) -> None:
         """Add a preconfigured sensor to the board"""
         for interface in device.interfaces:
