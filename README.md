@@ -4,7 +4,7 @@ DeviceOS is a framework for creating Homeassistant MQTT enabled devices.
 
 Devices support MQTT Discovery, so no faffing with configuration.yaml files.
 
-> ⚠️ This package is still very much WIP, so the API may change without notice! Contributions are always welcome. ⚠️
+> ⚠️ This package is still very much WIP, so the API may change without notice! ⚠️
 
 ## Installation
 
@@ -238,3 +238,8 @@ This will attempt to print the `read()` output every second, until killed. By em
 Now you have a sensor, you should add it to your `Board`
 
 This can be done by calling the `Board.add_device(device)` method after creating your device.
+
+
+# Contributions
+
+Contributions are always welcome! File a pull request or issue if you do any work on the back of what's already here, I'm more than happy to work with others!
